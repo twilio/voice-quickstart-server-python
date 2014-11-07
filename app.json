@@ -1,0 +1,36 @@
+{
+  "name": "Twilio Mobile Quickstart",
+  "description": "A simple Python server to distribute access tokens and route calls for your mobile app",
+  "repository": "https://github.com/twilio/voice-quickstart-server-python",
+  "keywords": [
+    "twilio",
+    "voice",
+    "mobile"
+  ],
+  "env": {
+    "ACCOUNT_SID": {
+      "description": "Your Twilio Account Sid",
+      "required": true
+    },
+    "API_KEY": {
+      "description": "Your Twilio API Key",
+      "required": true
+    },
+    "API_KEY_SECRET": {
+      "description": "Your Twilio API Key Secret",
+      "required": true
+    },
+    "PUSH_CREDENTIAL_SID": {
+      "description": "Your Twilio Push Credential Sid",
+      "required": true
+    },
+    "APP_SID": {
+      "description": "Your TwiML App Sid that points to this web server",
+      "required": true
+    },
+    "AUTH_TOKEN": {
+      "description": "Your Twilio Auth Token",
+      "required": true
+    }
+  }
+}
