@@ -18,7 +18,7 @@ Up and running
 
 This web application needs to be accessbile on the public internet in order to receive webhook requests from Twilio. Ngrok is a great options for getting this done quickly.
 
-### Deploy localling using Python and [Ngrok](https://ngrok.com/)
+### Deploy locally using Python and [Ngrok](https://ngrok.com/)
 
 For this option, you'll need to have the following tools installed on your development machine:
 
