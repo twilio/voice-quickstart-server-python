@@ -39,11 +39,11 @@ And then, in a separate terminal window, make your server available to the publi
 
 You should see a dynamically generated public Ngrok URL in the command window. Ngrok will now tunnel all HTTP traffic directed at this URL to your local machine at port 5000.
 
-There's one more step: Before the application server will work with _your_ Twilio account, you'll need to open the file `server.py` in your favorite text editor and replace `ACCOUNT_SID`, `API_KEY`, `API_KEY_SECRET`, `PUSH_CREDENTIAL_SID` and `APP_SID` with values from your Twilio account (Don't know what those values are? We cover this in detail in the (Programmable Voice SDK Quickstart)[https://www.twilio.com/docs/api/voice-sdk/ios/getting-started]). 
+There's one more step: Before the application server will work with _your_ Twilio account, you'll need to open the file `server.py` in your favorite text editor and replace `ACCOUNT_SID`, `API_KEY`, `API_KEY_SECRET`, `PUSH_CREDENTIAL_SID` and `APP_SID` with values from your Twilio account (Don't know what those values are? We cover this in detail in the [Programmable Voice SDK Quickstart](https://www.twilio.com/docs/api/voice-sdk/ios/getting-started). 
 
 ### Deploy to the cloud using [Heroku](https://heroku.com)
 
-Don't want to run the application server locally? You can also deploy it to the cloud using Heroku. Note: For this option, you'll want to gather your Twilio Account SID, API Key, API Key Secret, Push Credential SID and TwiML App SID before beginning the installation. (Don't know what these are? Read through the (Programmable Voice SDK Quickstart)[https://www.twilio.com/docs/api/voice-sdk/ios/getting-started] for all the information.)
+Don't want to run the application server locally? You can also deploy it to the cloud using Heroku. Note: For this option, you'll want to gather your Twilio Account SID, API Key, API Key Secret, Push Credential SID and TwiML App SID before beginning the installation. (Don't know what these are? Read through the [Programmable Voice SDK Quickstart](https://www.twilio.com/docs/api/voice-sdk/ios/getting-started) for all the information.
 
 If you don't already have one, visit Heroku and create a free account. Once that's done, click the button below to automatically set up this app, and enter the Twilio account information you gathered above when you're prompted.
 
