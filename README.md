@@ -58,3 +58,7 @@ Confused?
 ---
 
 Read through the instructions in the [Getting Started](https://www.twilio.com/docs/api/voice-sdk/ios/getting-started) guide. Still having trouble? [Email us and we'll give you a hand.](mailto:help@twilio.com)
+
+License
+---
+MIT
