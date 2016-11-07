@@ -4,11 +4,11 @@ from twilio.jwt.access_token import AccessToken, VoiceGrant
 from twilio.rest import Client
 import twilio.twiml
 
-ACCOUNT_SID = 'AC***'
-API_KEY = 'SK***'
-API_KEY_SECRET = '***'
-PUSH_CREDENTIAL_SID = 'CR***'
-APP_SID = 'AP***'
+ACCOUNT_SID = 'AC64d6a7fa1eb934e5ed068f57e4ac16f9'
+API_KEY = 'SK798c3d34afc34d650b1465606ccf640e'
+API_KEY_SECRET = 'BM9ohnBeTGb3z9NJFGhsigG7TeDxhjCl'
+PUSH_CREDENTIAL_SID = 'CR17e1e242557f010ad8739c0ccabe29bb'
+APP_SID = 'AP5dadf62e0240fad9dc927308b7dadc46'
 
 IDENTITY = 'voice_test'
 CALLER_ID = 'quick_start'
