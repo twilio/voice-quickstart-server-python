@@ -37,12 +37,11 @@ def token():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  from_value = request.values.get('From')
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
   client = Client(api_key, api_key_secret, account_sid)
-  client_name = request.values.get('client')
+  client_name = request.POST['client']
   call = client.calls.create(url=request.url_root + 'incoming', to='client:' + client_name, from_='client:' + IDENTITY)
   return str(resp)
 
