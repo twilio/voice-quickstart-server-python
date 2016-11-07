@@ -15,14 +15,16 @@ CALLER_ID = 'quick_start'
 
 app = Flask(__name__)
 
-@app.route('/accessToken')
+@app.route('/accessToken', methods=['GET', 'POST'])
 def token():
+  client_name = request.values.get('client')
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
   push_credential_sid = os.environ.get("PUSH_CREDENTIAL_SID", PUSH_CREDENTIAL_SID)
   app_sid = os.environ.get("APP_SID", APP_SID)
-
+  if client_name:
+     IDENTITY = client_name
   grant = VoiceGrant(
     push_credential_sid=push_credential_sid,
     outgoing_application_sid=app_sid
@@ -35,8 +37,13 @@ def token():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  resp = twilio.twiml.Response()
-  resp.say("Congratulations! You have made your first oubound call! Good bye.")
+  from_value = request.values.get('From')
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+  client = Client(api_key, api_key_secret, account_sid)
+  client_name = request.values.get('client')
+  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + client_name, from_='client:' + IDENTITY)
   return str(resp)
 
 @app.route('/incoming', methods=['GET', 'POST'])
