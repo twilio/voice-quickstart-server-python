@@ -41,14 +41,14 @@ def outgoing():
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
   client = Client(api_key, api_key_secret, account_sid)
-  client_name = request.POST['client']
-  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + 'peter', from_='client:' + IDENTITY)
+  client_name = request.values.get('To')
+  call = client.calls.create(url=request.url_root + 'incoming', to=client_name, from_='client:' + IDENTITY)
   return str(resp)
 
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
   resp = twilio.twiml.Response()
-  resp.say("Congratulations! You have received your first inbound call! Good bye.")
+  resp.dial(callerId=from_value).client(to[7:])
   return str(resp)
 
 @app.route('/placeCall', methods=['GET', 'POST'])
