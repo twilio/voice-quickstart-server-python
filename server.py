@@ -37,14 +37,24 @@ def token():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
-  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
-  client = Client(api_key, api_key_secret, account_sid)
-  client_name = request.values.get('To')
-  from_name = request.values.get('From')
-  call = client.calls.create(url='https://demo.twilio.com/docs/voice.xml', to=client_name, from_=from_name)
-  return str(call.sid)
+  resp = twilio.twiml.Response()
+  from_value = request.values.get('From')
+  to = request.values.get('To')
+  if not (from_value and to):
+    resp.say("Invalid request")
+    return str(resp)
+  from_client = from_value.startswith('client')
+  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  if not from_client:
+    # PSTN -> client
+    resp.dial(callerId=from_value).client(CLIENT)
+  elif to.startswith("client:"):
+    # client -> client
+    resp.dial(callerId=from_value).client(to[7:])
+  else:
+    # client -> PSTN
+    resp.dial(to, callerId=caller_id)
+  return str(resp)
 
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
