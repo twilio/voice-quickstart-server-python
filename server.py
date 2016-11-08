@@ -43,7 +43,7 @@ def outgoing():
   client = Client(api_key, api_key_secret, account_sid)
   client_name = request.values.get('To')
   from_name = request.values.get('From')
-  call = client.calls.create(url=request.url_root + 'incoming', to=client_name, from_=from_name)
+  call = client.calls.create(url='https://demo.twilio.com/docs/voice.xml', to=client_name, from_=from_name)
   return str(call.sid)
 
 @app.route('/incoming', methods=['GET', 'POST'])
