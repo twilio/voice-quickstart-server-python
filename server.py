@@ -42,8 +42,9 @@ def outgoing():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
   client = Client(api_key, api_key_secret, account_sid)
   client_name = request.values.get('to')
-  call = client.calls.create(url=request.url_root + 'incoming', to=client_name, from_='client:' + IDENTITY)
-  return str(call)
+  from_name = request.values.get('from')
+  call = client.calls.create(url=request.url_root + 'incoming', to=client_name, from_=from_name)
+  return str(call.sid)
 
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
