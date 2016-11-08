@@ -43,7 +43,7 @@ def outgoing():
   client = Client(api_key, api_key_secret, account_sid)
   client_name = request.values.get('to')
   call = client.calls.create(url=request.url_root + 'incoming', to=client_name, from_='client:' + IDENTITY)
-  return str(resp)
+  return str(call)
 
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
