@@ -41,15 +41,15 @@ def outgoing():
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
   client = Client(api_key, api_key_secret, account_sid)
-  client_name = request.values.get('to')
-  from_name = request.values.get('from')
+  client_name = request.values.get('To')
+  from_name = request.values.get('From')
   call = client.calls.create(url=request.url_root + 'incoming', to=client_name, from_=from_name)
   return str(call.sid)
 
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
   resp = twilio.twiml.Response()
-  to = request.values.get('to')
+  to = request.values.get('To')
   from_value = request.values.get('From')
   if not (from_value and to):
     resp.say("Invalid request")
