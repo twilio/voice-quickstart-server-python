@@ -56,37 +56,6 @@ def outgoing():
     resp.dial(to, callerId=caller_id)
   return str(resp)
 
-@app.route('/incoming', methods=['GET', 'POST'])
-def incoming():
-  resp = twilio.twiml.Response()
-  to = request.values.get('To')
-  from_value = request.values.get('From')
-  if not (from_value and to):
-    resp.say("Invalid request")
-    return str(resp)
-  from_client = from_value.startswith('client')
-  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-  if not from_client:
-    # PSTN -> client
-    resp.dial(callerId=from_value).client(CLIENT)
-  elif to.startswith("client:"):
-    # client -> client
-    resp.dial(callerId=from_value).client(to[7:])
-  else:
-    # client -> PSTN
-    resp.dial(to, callerId=caller_id)
-  return str(resp)
-
-@app.route('/placeCall', methods=['GET', 'POST'])
-def placeCall():
-  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
-  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
-
-  client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_='client:' + CALLER_ID)
-  return str(call.sid)
-
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
   resp = twilio.twiml.Response()
