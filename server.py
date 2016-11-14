@@ -66,9 +66,12 @@ def callLog():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
+  result = ""
   for call in client.calls.list(to="client:"+IDENTITY):
-    print("From: " + call.from_formatted + " To: " + call.to_formatted)
-  return str("")
+    result+="From: " + call.from_formatted + " To: " + call.to_formatted + "\n"
+  for call in client.calls.list(from_="client:"+IDENTITY):
+    result+="From: " + call.from_formatted + " To: " + call.to_formatted + "\n"
+  return str(result)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
