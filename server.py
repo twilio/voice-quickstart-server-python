@@ -68,7 +68,7 @@ def callLog():
   client = Client(api_key, api_key_secret, account_sid)
   for call in client.calls.list(to="client:"+IDENTITY):
     print("From: " + call.from_formatted + " To: " + call.to_formatted)
-  for call in client.calls.list(_from="client:"+IDENTITY):
+  for call in client.calls.list(_From="client:"+IDENTITY):
     print("From: " + call.from_formatted + " To: " + call.to_formatted)
   return
 
