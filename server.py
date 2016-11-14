@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 import twilio.twiml
 
 ACCOUNT_SID = 'AC64d6a7fa1eb934e5ed068f57e4ac16f9'
@@ -62,8 +62,10 @@ def outgoing():
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
-  client = TwilioRestClient(account_sid, auth_token)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
   for call in client.calls.list(to="client:"+IDENTITY):
     print("From: " + call.from_formatted + " To: " + call.to_formatted)
   for call in client.calls.list(_from="client:"+IDENTITY):
