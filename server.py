@@ -9,6 +9,7 @@ API_KEY = 'SK798c3d34afc34d650b1465606ccf640e'
 API_KEY_SECRET = 'BM9ohnBeTGb3z9NJFGhsigG7TeDxhjCl'
 PUSH_CREDENTIAL_SID = 'CR17e1e242557f010ad8739c0ccabe29bb'
 APP_SID = 'AP5dadf62e0240fad9dc927308b7dadc46'
+AUTH_TOKEN = 'e1b308b76f84d974c871bb87719249bc'
 
 IDENTITY = 'voice_test'
 CALLER_ID = 'quick_start'
@@ -54,7 +55,20 @@ def outgoing():
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
+  # if call end or failed
+  resp.say("The call failed, or the remote party hung up. Goodbye.")
   return str(resp)
+
+@app.route('/callLog', methods=['GET', 'POST'])
+def callLog():
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
+  client = TwilioRestClient(account_sid, auth_token)
+  for call in client.calls.list(to="client:"+IDENTITY):
+    print("From: " + call.from_formatted + " To: " + call.to_formatted)
+  for call in client.calls.list(_from="client:"+IDENTITY):
+    print("From: " + call.from_formatted + " To: " + call.to_formatted)
+  return
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
