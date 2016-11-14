@@ -66,10 +66,11 @@ def callLog():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
+  client_name = request.values.get('client')
   result = ""
-  for call in client.calls.list(to="client:"+IDENTITY):
+  for call in client.calls.list(to="client:"+client_name):
     result+="From: " + call.from_formatted + " To: " + call.to_formatted + "\n"
-  for call in client.calls.list(from_="client:"+IDENTITY):
+  for call in client.calls.list(from_="client:"+client_name):
     result+="From: " + call.from_formatted + " To: " + call.to_formatted + "\n"
   return str(result)
 
