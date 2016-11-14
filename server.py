@@ -1,7 +1,6 @@
 import os
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import Client
 from twilio.rest import TwilioRestClient
 import twilio.twiml
 
