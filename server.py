@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 import twilio.twiml
 
 ACCOUNT_SID = 'AC64d6a7fa1eb934e5ed068f57e4ac16f9'
