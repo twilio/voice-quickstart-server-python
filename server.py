@@ -76,7 +76,7 @@ def callLog():
     tmp = {'From':call.from_formatted, 'To':call.to_formatted}
     result.append(tmp)
   k = {'Call': result}
-  return k
+  return json.dumps(k)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
