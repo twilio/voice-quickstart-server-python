@@ -67,12 +67,15 @@ def callLog():
 
   client = Client(api_key, api_key_secret, account_sid)
   client_name = request.values.get('client')
-  result = ""
+  result = []
   for call in client.calls.list(to="client:"+client_name):
-    result+="From: " + call.from_formatted + " To: " + call.to_formatted + "\n"
+    tmp = {'From':call.from_formatted, 'To':call.to_formatted}
+    result.append(tmp)
   for call in client.calls.list(from_="client:"+client_name):
-    result+="From: " + call.from_formatted + " To: " + call.to_formatted + "\n"
-  return str(result)
+    tmp = {'From':call.from_formatted, 'To':call.to_formatted}
+    result.append(tmp)
+  dict = {'Call': result}
+  return dict
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
