@@ -70,10 +70,10 @@ def callLog():
   client_name = request.values.get('client')
   result = []
   for call in client.calls.list(to="client:"+client_name):
-    tmp = {'From':call.from_formatted, 'To':call.to_formatted, 'direction':call.direction_formatted}
+    tmp = {'From':call.from_formatted, 'To':call.to_formatted, 'direction':call.direction}
     result.append(tmp)
   for call in client.calls.list(from_="client:"+client_name):
-    tmp = {'From':call.from_formatted, 'To':call.to_formatted, 'direction':call.direction_formatted}
+    tmp = {'From':call.from_formatted, 'To':call.to_formatted, 'direction':call.direction}
     result.append(tmp)
   k = {'Call': result}
   return json.dumps(k)
