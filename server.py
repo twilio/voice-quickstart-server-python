@@ -69,10 +69,10 @@ def callLog():
   client = Client(api_key, api_key_secret, account_sid)
   client_name = request.values.get('client')
   result = []
-  for call in client.calls.list(to="client:"+client_name, direction="Outgoing Dial"):
+  for call in client.calls.list(to="client:"+client_name):
     tmp = {'From':call.from_formatted, 'To':call.to_formatted}
     result.append(tmp)
-  for call in client.calls.list(from_="client:"+client_name, direction="Outgoing Dial"):
+  for call in client.calls.list(from_="client:"+client_name):
     tmp = {'From':call.from_formatted, 'To':call.to_formatted}
     result.append(tmp)
   k = {'Call': result}
