@@ -74,8 +74,8 @@ def callLog():
   for call in client.calls.list(from_="client:"+client_name):
     tmp = {'From':call.from_formatted, 'To':call.to_formatted}
     result.append(tmp)
-  dict = {'Call': result}
-  return dict
+  k = {'Call': result}
+  return k
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
