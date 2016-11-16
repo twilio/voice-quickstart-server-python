@@ -8,7 +8,7 @@ import twilio.twiml
 ACCOUNT_SID = 'AC64d6a7fa1eb934e5ed068f57e4ac16f9'
 API_KEY = 'SK798c3d34afc34d650b1465606ccf640e'
 API_KEY_SECRET = 'BM9ohnBeTGb3z9NJFGhsigG7TeDxhjCl'
-PUSH_CREDENTIAL_SID = 'CR17e1e242557f010ad8739c0ccabe29bb'
+PUSH_CREDENTIAL_SID = 'CR54d55c09309224b87d11516c6d7ec23d'
 APP_SID = 'AP5dadf62e0240fad9dc927308b7dadc46'
 AUTH_TOKEN = 'e1b308b76f84d974c871bb87719249bc'
 CONTACT_LIST = [{'userName': 'Jacob'}, {'userName': 'Stephanie'}, {'userName': 'Samita'}, {'userName': 'MoonShik'}, {'userName': 'Laurel'}, {'userName': 'Chelsea'}, {'userName': 'John'}, {'userName': 'Michael'}, {'userName': 'Andrew'}, {'userName': 'Kathryn'}, {'userName': 'Caleb'}, {'userName': 'Emily'}, {'userName': 'Isaac'}, {'userName': 'Hannah'}, {'userName': 'Barrett'}, {'userName': 'Elizabeth'}, {'userName': 'Dana'}, {'userName': 'Alisha'}, {'userName': 'Lewis'}, {'userName': 'Emma'}, {'userName': 'Quinn'}, {'userName': 'Benjamin'}, {'userName': 'Bianca'}, {'userName': 'Philip'}, {'userName': 'Kathryn'}, {'userName': 'Allison'}, {'userName': 'Jackson'}, {'userName': 'Oscar'}, {'userName': 'Corine'}, {'userName': 'Benjamin'}]
