@@ -43,7 +43,7 @@ def token():
   token = AccessToken(account_sid, api_key, api_key_secret, IDENTITY)
   token.add_grant(grant)
 
-  return push_credential_sid
+  return str(token)
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
