@@ -11,7 +11,7 @@ API_KEY_SECRET = 'BM9ohnBeTGb3z9NJFGhsigG7TeDxhjCl'
 PUSH_CREDENTIAL_SID = 'CR17e1e242557f010ad8739c0ccabe29bb'
 APP_SID = 'AP5dadf62e0240fad9dc927308b7dadc46'
 AUTH_TOKEN = 'e1b308b76f84d974c871bb87719249bc'
-CONTAST_LIST =  [{'userName': 'Twilio Demo 1'}, {'userName': 'Twilio Demo 2'}, {'userName': 'Twilio Demo 3'}, {'userName': 'Twilio Demo 4'}, {'userName': 'Twilio Demo 5'}, {'userName': 'Twilio Demo 6'}, {'userName': 'Twilio Demo 7'}, {'userName': 'Twilio Demo 8'}, {'userName': 'Twilio Demo 9'}, {'userName': 'Twilio Demo 10'}, {'userName': 'Twilio Demo 11'}, {'userName': 'Twilio Demo 12'}, {'userName': 'Twilio Demo 13'}, {'userName': 'Twilio Demo 14'}, {'userName': 'Twilio Demo 15'}, {'userName': 'Twilio Demo 16'}, {'userName': 'Twilio Demo 17'}, {'userName': 'Twilio Demo 18'}, {'userName': 'Twilio Demo 19'}, {'userName': 'Twilio Demo 20'}, {'userName': 'Twilio Demo 21'}, {'userName': 'Twilio Demo 22'}, {'userName': 'Twilio Demo 23'}, {'userName': 'Twilio Demo 24'}, {'userName': 'Twilio Demo 25'}, {'userName': 'Twilio Demo 26'}, {'userName': 'Twilio Demo 27'}, {'userName': 'Twilio Demo 28'}, {'userName': 'Twilio Demo 29'}, {'userName': 'Twilio Demo 30'}]
+CONTACT_LIST = [{'userName': 'Jacob'}, {'userName': 'Stephanie'}, {'userName': 'Samita'}, {'userName': 'MoonShik'}, {'userName': 'Laurel'}, {'userName': 'Chelsea'}, {'userName': 'John'}, {'userName': 'Michael'}, {'userName': 'Andrew'}, {'userName': 'Kathryn'}, {'userName': 'Caleb'}, {'userName': 'Emily'}, {'userName': 'Isaac'}, {'userName': 'Hannah'}, {'userName': 'Barrett'}, {'userName': 'Elizabeth'}, {'userName': 'Dana'}, {'userName': 'Alisha'}, {'userName': 'Lewis'}, {'userName': 'Emma'}, {'userName': 'Quinn'}, {'userName': 'Benjamin'}, {'userName': 'Bianca'}, {'userName': 'Philip'}, {'userName': 'Kathryn'}, {'userName': 'Allison'}, {'userName': 'Jackson'}, {'userName': 'Oscar'}, {'userName': 'Corine'}, {'userName': 'Benjamin'}]
 
 IDENTITY = 'voice_test'
 CALLER_ID = 'quick_start'
@@ -83,7 +83,7 @@ def callLog():
 
 @app.route('/contactList', methods=['GET', 'POST'])
 def contactList():
-  return json.dumps({'contact': CONTAST_LIST})
+  return json.dumps({'contact': CONTACT_LIST})
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
