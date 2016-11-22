@@ -5,13 +5,13 @@ from twilio.jwt.access_token import AccessToken, VoiceGrant
 from twilio.rest import Client
 import twilio.twiml
 
-ACCOUNT_SID = 'AC371eee69bae8c9e66d3d363c7662e853'
+ACCOUNT_SID = 'AC930ff2e97f313c236fe571db9987e5a0'
 API_KEY = 'SKc0f6bc9d50890b39ee18a597bfd1f6a7'
 API_KEY_SECRET = '5ALedwHKH9P2FzXSxCuwC4KZqp3MDvEb'
 PUSH_CREDENTIAL_SID_IOS = 'CR32ee6b961fd8ba2a0468ef837d575887'
 PUSH_CREDENTIAL_SID_ANDROID = 'CRc99c3fab903e5790684af49ccd6e52ae'
 APP_SID = 'APaafd4dcb530c4c3811e85738f4df3f7f'
-AUTH_TOKEN = '07ad5174e6e6f2bd280a5efbb4fcac9d'
+AUTH_TOKEN = 'f2f4669503e0ca0b04a8ed3f50bb489b'
 CONTACT_LIST = [{'userName': 'Phong'}, {'userName': 'Dinh'}, {'userName': 'Antony'}, {'userName': 'Khanh'}, {'userName': 'Tan'}, {'userName': 'Hiep'}, {'userName': 'Thuc'}, {'userName': 'Tam'}, {'userName': 'Phi'}, {'userName': 'Jacob'}, {'userName': 'Stephanie'}, {'userName': 'Samita'}, {'userName': 'MoonShik'}, {'userName': 'Laurel'}, {'userName': 'Chelsea'}, {'userName': 'John'}, {'userName': 'Michael'}, {'userName': 'Andrew'}, {'userName': 'Kathryn'}, {'userName': 'Caleb'}, {'userName': 'Emily'}, {'userName': 'Isaac'}, {'userName': 'Hannah'}, {'userName': 'Barrett'}, {'userName': 'Elizabeth'}, {'userName': 'Dana'}, {'userName': 'Alisha'}, {'userName': 'Lewis'}, {'userName': 'Emma'}, {'userName': 'Quinn'}, {'userName': 'Benjamin'}, {'userName': 'Bianca'}, {'userName': 'Philip'}, {'userName': 'Kathryn'}, {'userName': 'Allison'}, {'userName': 'Jackson'}, {'userName': 'Oscar'}, {'userName': 'Corine'}, {'userName': 'Benjamin'}]
 
 IDENTITY = 'voice_test'
