@@ -54,7 +54,7 @@ def incoming():
 
 @app.route('/outbound', methods=['POST'])
 def outbound():
-    response = twiml.Response()
+    response = twilio.twiml.Response()
     with response.dial() as dial:
         dial.client(CALLER_ID)
     return str(response)
