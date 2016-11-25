@@ -45,6 +45,12 @@ def token():
 
   return str(token)
 
+@app.route('/incoming', methods=['GET', 'POST'])
+def incoming():
+  resp = twilio.twiml.Response()
+  resp.say("Congratulations! You have received your first inbound call! Good bye.")
+  return str(resp)
+
 @app.route('/outbound', methods=['POST'])
 def outbound():
     response = twiml.Response()
@@ -61,7 +67,7 @@ def outgoing():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(url=request.url_root + 'outbound', to=CALLER_ID, from_=IDENTITY)
+  call = client.calls.create(url=request.url_root + 'incoming', to=CALLER_ID, from_=IDENTITY)
   return str(call.sid)
 
 @app.route('/callLog', methods=['GET', 'POST'])
