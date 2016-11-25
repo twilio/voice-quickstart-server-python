@@ -68,7 +68,7 @@ def outgoing():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(to=CALLER_ID, from_=IDENTITY, url=url_for('.incoming', _external=True))
+  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + 'hiep', from_='client:' + 'thuc')
   return str(call.sid)
 
 @app.route('/placeCall', methods=['GET', 'POST'])
