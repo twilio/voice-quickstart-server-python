@@ -61,14 +61,14 @@ def outbound():
   
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  IDENTITY = request.values.get('From')
-  CALLER_ID = request.values.get('To')
+  from_value = request.values.get('From')
+  to_value = request.values.get('To')
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + 'hiep', from_='client:' + 'thuc')
+  call = client.calls.create(url=request.url_root + 'incoming', to=to_value, from_=from_value)
   return str(call.sid)
 
 @app.route('/placeCall', methods=['GET', 'POST'])
