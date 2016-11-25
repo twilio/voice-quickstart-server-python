@@ -45,28 +45,34 @@ def token():
 
   return str(token)
 
+@app.route('/outbound', methods=['POST'])
+def outbound():
+    response = twiml.Response()
+    with response.dial() as dial:
+        dial.client(CALLER_ID)
+    return str(response)
+  
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
-  to = request.values.get('To')
-  if not (from_value and to):
-    resp.say("Invalid request")
-    return str(resp)
-  from_client = from_value.startswith('client')
-  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-  if not from_client:
-    # PSTN -> client
-    resp.dial(callerId=from_value).client(CLIENT)
-  elif to.startswith("client:"):
-    # client -> client
-    resp.dial(callerId=from_value).client(to[7:])
-  else:
-    # client -> PSTN
-    resp.dial(to, callerId=caller_id)
-  # if call end or failed
-  # resp.say("The call failed, or the remote party hung up. Goodbye.")
-  return str(resp)
+  CALLER_ID = request.values.get('To')
+  try:
+        twilio_client = TwilioRestClient(ACCOUNT_SID,AUTH_TOKEN)
+    except Exception as e:
+        msg = 'Missing configuration variable: {0}'.format(e)
+        return jsonify({'error': msg})
+
+    try:
+        twilio_client.calls.create(from_=from_value,
+                                   to=CALLER_ID,
+                                   url=url_for('.outbound',
+                                               _external=True))
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify({'error': str(e)})
+
+    return jsonify({'message': 'Call incoming!'})
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
