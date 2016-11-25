@@ -71,6 +71,16 @@ def outgoing():
   call = client.calls.create(to=CALLER_ID, from_=IDENTITY, url=url_for('.incoming', _external=True))
   return str(call.sid)
 
+@app.route('/placeCall', methods=['GET', 'POST'])
+def placeCall():
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
+  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + 'hiep', from_='client:' + 'thuc')
+  return str(call.sid)
+
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
