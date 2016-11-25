@@ -69,7 +69,7 @@ def outgoing():
 
   client = Client(api_key, api_key_secret, account_sid)
   call = client.calls.create(url=request.url_root + 'incoming', to=''+to_value, from_=''+from_value)
-  return str(call.sid)
+  return str('')
 
 @app.route('/placeCall', methods=['GET', 'POST'])
 def placeCall():
