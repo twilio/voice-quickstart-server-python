@@ -54,15 +54,15 @@ def outbound():
   
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  resp = twilio.twiml.Response()
-  from_value = request.values.get('From')
+  IDENTITY = request.values.get('From')
   CALLER_ID = request.values.get('To')
-  twilio_client = TwilioRestClient(ACCOUNT_SID,AUTH_TOKEN)
-  twilio_client.calls.create(from_=from_value,
-                                   to=CALLER_ID,
-                                   url=url_for('.outbound',
-                                               _external=True))
-  return str(resp)
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
+  call = client.calls.create(url=request.url_root + 'outbound', to=CALLER_ID, from_=IDENTITY)
+  return str(call.sid)
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
