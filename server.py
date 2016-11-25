@@ -68,7 +68,7 @@ def outgoing():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(url=request.url_root + 'outbound', to=''+to_value, from_=''+from_value)
+  call = client.calls.create(url='http://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient', to=''+to_value, from_=''+from_value)
   return str(call.sid)
 
 @app.route('/placeCall', methods=['GET', 'POST'])
