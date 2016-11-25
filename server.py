@@ -59,20 +59,20 @@ def outgoing():
   CALLER_ID = request.values.get('To')
   try:
         twilio_client = TwilioRestClient(ACCOUNT_SID,AUTH_TOKEN)
-    except Exception as e:
+  except Exception as e:
         msg = 'Missing configuration variable: {0}'.format(e)
         return jsonify({'error': msg})
 
-    try:
+  try:
         twilio_client.calls.create(from_=from_value,
                                    to=CALLER_ID,
                                    url=url_for('.outbound',
                                                _external=True))
-    except Exception as e:
+  except Exception as e:
         app.logger.error(e)
         return jsonify({'error': str(e)})
 
-    return jsonify({'message': 'Call incoming!'})
+  return jsonify({'message': 'Call incoming!'})
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
