@@ -56,21 +56,23 @@ def outbound():
 def outgoing():
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
+  caller = request.values.get('Caller')
+  caller_value=caller[7:]
   to = request.values.get('To')
   if not (from_value and to):
     resp.say("Invalid request")
     return str(resp)
-  from_client = from_value.startswith('client')
-  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  from_client = caller.startswith('client')
+  # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   if not from_client:
     # PSTN -> client
-    resp.dial(callerId=from_value).client(caller_id)
+    resp.dial(callerId=caller_value).client(caller[7:])
   elif to.startswith("client:"):
     # client -> client
-    resp.dial(callerId=from_value).client(to[7:])
+    resp.dial(callerId=caller_value).client(to[7:])
   else:
     # client -> PSTN
-    resp.dial(callerId=from_value).number(to)
+    resp.dial(callerId=caller_value).number(to)
 
   # if call end or failed
   # resp.say("The call failed, or the remote party hung up. Goodbye.")
