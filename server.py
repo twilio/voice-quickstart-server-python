@@ -70,7 +70,8 @@ def outgoing():
     resp.dial(callerId=from_value).client(to[7:])
   else:
     # client -> PSTN
-    resp.dial(to, callerId=caller_id)
+    resp.dial(callerId=from_value).number(to)
+
   # if call end or failed
   # resp.say("The call failed, or the remote party hung up. Goodbye.")
   return str(resp)
