@@ -12,7 +12,7 @@ PUSH_CREDENTIAL_SID_IOS = 'CR46ae38c939adf11bee2ecdc8e9e4a0b1'
 PUSH_CREDENTIAL_SID_ANDROID = 'CR0776cf10fe89986c7d40628e532dcd31'
 APP_SID = 'APaafd4dcb530c4c3811e85738f4df3f7f'
 AUTH_TOKEN = 'f2f4669503e0ca0b04a8ed3f50bb489b'
-CONTACT_LIST = [{'userName': 'Phong'}, {'userName': 'Dinh'}, {'userName': 'Antony'}, {'userName': 'Khanh'}, {'userName': 'Tan'}, {'userName': 'Hiep'}, {'userName': 'Thuc'}, {'userName': 'Tam'}, {'userName': 'Phi'}, {'userName': 'Jacob'}, {'userName': 'Stephanie'}, {'userName': 'Samita'}, {'userName': 'MoonShik'}, {'userName': 'Laurel'}, {'userName': 'Chelsea'}, {'userName': 'John'}, {'userName': 'Michael'}, {'userName': 'Andrew'}, {'userName': 'Kathryn'}, {'userName': 'Caleb'}, {'userName': 'Emily'}, {'userName': 'Isaac'}, {'userName': 'Hannah'}, {'userName': 'Barrett'}, {'userName': 'Elizabeth'}, {'userName': 'Dana'}, {'userName': 'Alisha'}, {'userName': 'Lewis'}, {'userName': 'Emma'}, {'userName': 'Quinn'}, {'userName': 'Benjamin'}, {'userName': 'Bianca'}, {'userName': 'Philip'}, {'userName': 'Kathryn'}, {'userName': 'Allison'}, {'userName': 'Jackson'}, {'userName': 'Oscar'}, {'userName': 'Corine'}, {'userName': 'Benjamin'}]
+CONTACT_LIST = [{'userName': 'Phong'}, {'userName': 'Dinh'}, {'userName': 'Antony'}, {'userName': 'Khanh'}, {'userName': 'Tan'}, {'userName': 'Hiep'}]
 
 IDENTITY = 'voice_test'
 CALLER_ID = 'quick_start'
@@ -66,7 +66,12 @@ def outgoing():
   # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   if not from_client:
     # PSTN -> client
-    resp.dial(callerId=from_value).client(caller)
+    if to.startswith('17324225521'):
+        to_client = 'Antony_test'
+    else: 
+         to_client = 'failed'
+            
+    resp.dial(callerId=from_value).client(to_client)
   elif to.startswith("client:"):
     # client -> client
     resp.dial(callerId=caller_value).client(to[7:])
