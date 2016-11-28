@@ -68,11 +68,10 @@ def outgoing():
     # PSTN -> client
     if to.startswith('+1732422'):
         to_client = 'antony_test'
-    elif to.startswith('+659051999'):
+    elif to.startswith('+6584976337'):
         to_client = 'antony_test'
     else:
         to_client = 'failed'
-            
     
     resp.dial(callerId=from_value).client(to_client)
   elif to.startswith("client:"):
