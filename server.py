@@ -34,7 +34,7 @@ def token():
     push_credential_sid = os.environ.get("PUSH_CREDENTIAL_SID_ANDROID", PUSH_CREDENTIAL_SID_ANDROID)
     
   if client_name:
-     IDENTITY = 'antony_test'
+     IDENTITY =client_name
   grant = VoiceGrant(
     push_credential_sid=push_credential_sid,
     outgoing_application_sid=app_sid
