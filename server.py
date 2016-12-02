@@ -67,9 +67,9 @@ def outgoing():
   if not from_client:
     # PSTN -> client
     if to.startswith('+658497633'):
-        to_client = 'antony_test'
-    elif to.startswith('+8525803668'):
         to_client = 'antony_hkg'
+    elif to.startswith('+8525803668'):
+        to_client = 'antony_test'
     else:
         to_client = 'failed'
     
