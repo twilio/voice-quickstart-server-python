@@ -70,6 +70,8 @@ def outgoing():
         to_client = 'antony_hkg'
     elif to.startswith('+8525803668'):
         to_client = 'antony_test'
+    elif to.startswith('+6531584308'):
+        to_client = 'antony_test'
     else:
         to_client = 'failed'
     
