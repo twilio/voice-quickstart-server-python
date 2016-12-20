@@ -105,11 +105,11 @@ def callLog():
   result = []
   for call in client.calls.list(to="client:"+client_name):
     if call.direction != "inbound":
-      tmp = {'from':call.from_formatted, 'to':call.to_formatted, 'status':call.status, 'duration':call.duration, 'starttime':str(call.start_time)}
+      tmp = {'contact':call.from_formatted, 'type':'Inbox', 'status':call.status, 'duration':call.duration, 'starttime':str(call.start_time)}
       result.append(tmp)
   for call in client.calls.list(from_="client:"+client_name):
     if call.direction != "inbound":
-      tmp = {'from':call.from_formatted, 'to':call.to_formatted, 'status':call.status, 'duration':call.duration, 'starttime':str(call.start_time)}
+      tmp = {'type':'Outbox', 'contact':call.to_formatted, 'status':call.status, 'duration':call.duration, 'starttime':str(call.start_time)}
       result.append(tmp)
   k = {'Call': result}
   return json.dumps(k)
