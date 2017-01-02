@@ -69,9 +69,11 @@ def outgoing():
     if to.startswith('+653158426'):
         to_client = 'antony_hkg'
     elif to.startswith('+8525803668'):
-        to_client = 'antony_test'
+        to_client = 'antony_hkg'
     elif to.startswith('+653158430'):
         to_client = 'antony_test'
+    elif to.startswith('+653158424'):
+        to_client = 'testing_SG'
     else:
         to_client = 'failed_no_client_map'
     
@@ -85,9 +87,10 @@ def outgoing():
         caller_value = '+6584976337'
     if caller.startswith('client:ClientYY'):
         caller_value = '+6584976337'
- 
     if caller.startswith('client:antony_hk'):
         caller_value = '+85258036680'
+    if caller.startswith('client:testing_SG'):
+        caller_value = '+6531584242'
     resp.dial(callerId=caller_value).number(to)
 
   # if call end or failed
