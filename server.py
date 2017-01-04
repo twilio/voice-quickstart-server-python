@@ -129,10 +129,10 @@ def callMinutes():
   client = Client(api_key, api_key_secret, account_sid)
   client_name = request.values.get('client')
   result = 0
-  for call in client.calls.list(to="client:"+client_name, status="completed", StartTime=date.today()):
+  for call in client.calls.list(to="client:"+client_name, status="completed", start_time=date.today()):
     if call.direction != "inbound":
       result = result + call.duration
-  for call in client.calls.list(from_="client:"+client_name, status="completed", StartTime=date.today()):
+  for call in client.calls.list(from_="client:"+client_name, status="completed", start_time=date.today()):
     if call.direction != "inbound":
       result = result + call.duration
   k = {'minutes': result}
