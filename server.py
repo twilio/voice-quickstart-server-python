@@ -131,10 +131,10 @@ def callMinutes():
   result = 0
   for call in client.calls.list(to="client:"+client_name, status="completed", start_time=date.today()):
     if call.direction != "inbound":
-      result = result + call.duration
+      result = result + int(call.duration)
   for call in client.calls.list(from_="client:"+client_name, status="completed", start_time=date.today()):
     if call.direction != "inbound":
-      result = result + call.duration
+      result = result + int(call.duration)
   k = {'minutes': result}
   return json.dumps(k)
 
