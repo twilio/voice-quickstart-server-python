@@ -3,6 +3,7 @@ import json
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
 from twilio.rest import Client
+from datetime import date
 import twilio.twiml
 
 ACCOUNT_SID = 'AC930ff2e97f313c236fe571db9987e5a0'
@@ -117,6 +118,24 @@ def callLog():
       tmp = {'type':'Outbox', 'contact':call.to_formatted, 'status':call.status, 'duration':call.duration, 'starttime':str(call.start_time)}
       result.append(tmp)
   k = {'Call': result}
+  return json.dumps(k)
+
+@app.route('/callMinutes', methods=['GET', 'POST'])
+def callMinutes():
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
+  client_name = request.values.get('client')
+  result = 0
+  for call in client.calls.list(to="client:"+client_name, status="completed", started=date.today()):
+    if call.direction != "inbound":
+      result = result + call.duration
+  for call in client.calls.list(from_="client:"+client_name, status="completed", started=date.today()):
+    if call.direction != "inbound":
+      result = result + call.duration
+  k = {'minutes': result}
   return json.dumps(k)
 
 @app.route('/contactList', methods=['GET', 'POST'])
