@@ -70,7 +70,7 @@ def outgoing():
   if not from_client:
     # PSTN -> client
     if to.startswith('+653158426'):
-        to_client = 'antony_hkg'
+        to_client = 'ClientYY'
     elif to.startswith('+8525803668'):
         to_client = 'antony_hkg'
     elif to.startswith('+653158430'):
@@ -86,9 +86,9 @@ def outgoing():
     resp.dial(callerId=caller_value).client(to[7:])
   else:
     # client -> PSTN
-    if caller.startswith('client:antony_test'):
+    if caller.startswith('client:antony_tes'):
         caller_value = '+6584976337'
-    if caller.startswith('client:ClientYY'):
+    if caller.startswith('client:ClientY'):
         caller_value = '+6584976337'
     if caller.startswith('client:antony_hk'):
         caller_value = '+85258036680'
