@@ -2,7 +2,7 @@ import os
 import json
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 from datetime import date
 import twilio.twiml
 
