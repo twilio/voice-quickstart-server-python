@@ -5,4 +5,5 @@ Werkzeug==0.9.6
 httplib2==0.9
 itsdangerous==0.24
 six==1.8.0
+twilio==6.0.0rc12
 wsgiref==0.1.2
