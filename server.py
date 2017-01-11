@@ -3,7 +3,6 @@ import json
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
 from twilio.rest import Client
-from twilio.rest.Client import TwilioRestClient
 from datetime import date
 import twilio.twiml
 
@@ -111,7 +110,7 @@ def verification():
   
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
-  new_phone = client.AddOutgoingCallerId(phoneNumber, friendlyName,null,null)
+  new_phone = client.caller_ids.validate(phoneNumber, friendly_name=friendlyName)
   return new_phone.validation_code
 
 @app.route('/callLog', methods=['GET', 'POST'])
