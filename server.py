@@ -109,7 +109,7 @@ def verification():
   client = Client(api_key, api_key_secret, account_sid)
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
-  caller_id = client.caller_ids.validate(phoneNumber, friendly_name=friendlyName)
+  caller_id = client.CallerIds.validate(phoneNumber, friendly_name=friendlyName)
   return caller_id.validation_code
 
 @app.route('/callLog', methods=['GET', 'POST'])
