@@ -100,6 +100,18 @@ def outgoing():
   # resp.say("The call failed, or the remote party hung up. Goodbye.")
   return str(resp)
 
+@app.route('/verification', methods=['GET', 'POST'])
+def callLog():
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
+  phoneNumber = request.values.get('phoneNumber')
+  friendlyName = request.values.get('friendlyName')
+  caller_id = client.caller_ids.validate(phoneNumber, friendly_name=friendlyName)
+  return caller_id.validation_code
+
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
