@@ -1,7 +1,7 @@
 {
   "name": "Twilio Mobile Quickstart",
   "description": "A simple Python server to distribute access tokens and route calls for your mobile app",
-  "repository": "https://github.com/twilio/voice-quickstart-server-python",
+  "repository": "https://github.com/hieplebstar/voice-quickstart-server-python",
   "keywords": [
     "twilio",
     "voice",
