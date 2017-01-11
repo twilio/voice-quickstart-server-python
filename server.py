@@ -2,7 +2,7 @@ import os
 import json
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 from datetime import date
 import twilio.twiml
 
@@ -103,9 +103,10 @@ def outgoing():
 @app.route('/verification', methods=['GET', 'POST'])
 def verification():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
-  
-  client = TwilioRestClient(account_sid, auth_token)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
   
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
