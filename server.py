@@ -110,8 +110,8 @@ def verification():
   
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
-  caller_id = client.account.caller_ids.validate(phoneNumber, friendly_name=friendlyName)
-  return caller_id.validation_code
+  new_phone = client.account.phone_numbers.create(phone_number=phoneNumber)
+  return new_phone.validation_code
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
