@@ -103,10 +103,10 @@ def outgoing():
 @app.route('/verification', methods=['GET', 'POST'])
 def verification():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
+  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
   		  
-  client = TwilioRestClient(account_sid, AUTH_TOKEN)
+  client = TwilioRestClient(account_sid, auth_token)
   
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
