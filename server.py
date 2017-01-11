@@ -2,7 +2,7 @@ import os
 import json
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import Client
+from twilio.rest import TwilioRestClient
 from datetime import date
 import twilio.twiml
 
@@ -103,10 +103,9 @@ def outgoing():
 @app.route('/verification', methods=['GET', 'POST'])
 def verification():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
-  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
 
-  client = Client(api_key, api_key_secret, account_sid)
+  client = TwilioRestClient(account_sid, auth_token)
   
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
@@ -116,10 +115,9 @@ def verification():
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
-  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
 
-  client = Client(api_key, api_key_secret, account_sid)
+  client = TwilioRestClient(account_sid, auth_token)
   client_name = request.values.get('client')
   result = []
   for call in client.calls.list(to="client:"+client_name):
@@ -136,10 +134,9 @@ def callLog():
 @app.route('/callMinutes', methods=['GET', 'POST'])
 def callMinutes():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
-  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
 
-  client = Client(api_key, api_key_secret, account_sid)
+  client = TwilioRestClient(account_sid, auth_token)
   client_name = request.values.get('client')
   result = 0
   for call in client.calls.list(to="client:"+client_name, status="completed", start_time=date.today()):
