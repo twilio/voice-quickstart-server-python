@@ -112,8 +112,20 @@ def verification():
   
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
-  new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName)
+  new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName, call_delay=30)
   return str(new_phone.validation_code)
+
+@app.route('/checkPhoneNumber', methods=['GET', 'POST'])
+def checkPhoneNumber():
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
+  		  
+  client = Client(api_key, api_key_secret, account_sid)
+  
+  phoneNumber = request.values.get('phoneNumber')
+  caller_ids = client.outgoing_caller_ids.list(phone_number=phoneNumber)
+  return len(caller_ids) > 0
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
