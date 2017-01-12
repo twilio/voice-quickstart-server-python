@@ -46,7 +46,7 @@ def token():
   token = AccessToken(account_sid, api_key, api_key_secret, IDENTITY)
   token.add_grant(grant)
 
-  return str(token)
+  return ctoken)
 
 @app.route('/outbound', methods=['POST'])
 def outbound():
@@ -125,7 +125,7 @@ def checkPhoneNumber():
   
   phoneNumber = request.values.get('phoneNumber')
   caller_ids = client.outgoing_caller_ids.list(phone_number=phoneNumber)
-  return len(caller_ids) > 0
+  return str(len(caller_ids) > 0)
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
