@@ -125,7 +125,10 @@ def checkPhoneNumber():
   
   phoneNumber = request.values.get('phoneNumber')
   caller_ids = client.outgoing_caller_ids.list()
-  return str(caller_ids)
+  result = ""
+  for caller_id in caller_ids:
+    result = result + caller_id.phone_number
+  return str(result)
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
