@@ -124,7 +124,7 @@ def checkPhoneNumber():
   client = Client(api_key, api_key_secret, account_sid)
   
   phoneNumber = request.values.get('phoneNumber')
-  caller_ids = client.outgoing_caller_ids.list(phone_number=phoneNumber)
+  caller_ids = client.outgoing_caller_ids.list()
   return str(caller_ids)
 
 @app.route('/callLog', methods=['GET', 'POST'])
