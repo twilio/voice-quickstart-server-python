@@ -125,7 +125,7 @@ def checkPhoneNumber():
   
   phoneNumber = request.values.get('phoneNumber')
   caller_ids = client.outgoing_caller_ids.list(phone_number=phoneNumber)
-  result = ""
+  result = ""+phoneNumber
   for caller_id in caller_ids:
     result = result + caller_id.phone_number
   return str(result)
