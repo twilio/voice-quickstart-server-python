@@ -113,7 +113,7 @@ def verification():
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
   new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName, call_delay=30)
-  k = {'validation_code': new_phone.validation_code}
+  k = {'validation_code': str(new_phone.validation_code)}
   return json.dumps(k)
 
 @app.route('/checkPhoneNumber', methods=['GET', 'POST'])
