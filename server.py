@@ -72,7 +72,7 @@ def outgoing():
     if to.startswith('+653158426'):
         to_client = 'ClientDavid'
     elif to.startswith('+8525803668'):
-        to_client = 'antony_hkg'
+        to_client = 'Testing-HKG'
     elif to.startswith('+653158430'):
         to_client = 'BKK-TEST'
     elif to.startswith('+653158424'):
@@ -90,7 +90,7 @@ def outgoing():
         caller_value = '+6584976337'
     if caller.startswith('client:ClientDavi'):
         caller_value = '+6590175007'
-    if caller.startswith('client:antony_hk'):
+    if caller.startswith('client:Testing-HK'):
         caller_value = '+85258036680'
     if caller.startswith('client:testing_SG'):
         caller_value = '+6531584242'
