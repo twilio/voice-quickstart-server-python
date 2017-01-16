@@ -126,7 +126,7 @@ def checkPhoneNumber():
   
   phoneNumber = request.values.get('phoneNumber')
   caller_ids = client.outgoing_caller_ids.list(phone_number=phoneNumber)
-  k = {'verified': str(len(caller_ids)>0)}
+  k = {'verified': str(len(caller_ids)>0), 'phone_number': phoneNumber}
   return json.dumps(k)
 
 @app.route('/callLog', methods=['GET', 'POST'])
