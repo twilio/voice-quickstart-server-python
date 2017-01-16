@@ -113,7 +113,8 @@ def verification():
   phoneNumber = request.values.get('phoneNumber')
   friendlyName = request.values.get('friendlyName')
   new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName, call_delay=30)
-  return str(new_phone.validation_code)
+  k = {'validation_code': new_phone.validation_code}
+  return json.dumps(k)
 
 @app.route('/checkPhoneNumber', methods=['GET', 'POST'])
 def checkPhoneNumber():
@@ -125,7 +126,8 @@ def checkPhoneNumber():
   
   phoneNumber = request.values.get('phoneNumber')
   caller_ids = client.outgoing_caller_ids.list(phone_number=phoneNumber)
-  return str(len(caller_ids)>0)
+  k = {'verified': len(caller_ids)>0}
+  return json.dumps(k)
 
 @app.route('/callLog', methods=['GET', 'POST'])
 def callLog():
