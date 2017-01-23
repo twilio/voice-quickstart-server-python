@@ -94,8 +94,12 @@ def outgoing():
         caller_value = '+85258036680'
     if caller.startswith('client:testing_SG'):
         caller_value = '+6531584242'
-    if caller.startswith('client:BKK-TE'):
-        caller_value = '+6531584308'
+    if caller.startswith('client:LM-test'):
+        caller_value = '+85258036680'
+    if caller.startswith('client:TIFE-TEST'):
+        caller_value = '+85258036680'
+    if caller.startswith('client:APP-TEST'):
+        caller_value = '+85258036680'
     resp.dial(callerId=caller_value).number(to)
 
   # if call end or failed
