@@ -96,7 +96,7 @@ def outgoing():
         caller_value = '+6531584242'
     if caller.startswith('client:LM-test'):
         caller_value = '+85258036680'
-    if caller.startswith('client:TIFE-TEST'):
+    if caller.startswith('client:Tife'):
         caller_value = '+85258036680'
     if caller.startswith('client:APP-TEST'):
         caller_value = '+85258036680'
