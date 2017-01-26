@@ -112,8 +112,8 @@ def outgoing():
 def call_completed():
       resp = twilio.twiml.Response()
 
-  phoneNumber = request.values.get('phoneNumber')
-if (request.values.get("DialCallStatus") == "completed" or request.values.get("DialCallStatus") == "answered") : 
+#  phoneNumber = request.values.get('phoneNumber')
+if (request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered") : 
 
     resp.hangup()
   else:
