@@ -110,14 +110,15 @@ def outgoing():
 
 @app.route('/call_completed', methods=['GET', 'POST'])
 def call_completed():
-if request.values.get("DialCallStatus") == "completed" or request.values.get("DialCallStatus") == "answered" : 
-  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+      account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
   		  
   client = Client(api_key, api_key_secret, account_sid)
   
   phoneNumber = request.values.get('phoneNumber')
+if (request.values.get("DialCallStatus") == "completed" or request.values.get("DialCallStatus") == "answered") : 
+
     resp.hangup()
   else:
     resp.redirect("http://twimlets.com/menu?Message=Please%20press%20One%20for%20recording%20a%20voice%20mail%20&Options%5B1%5D=http%3A%2F%2Ftwimlets.com%2Fvoicemail%3FEmail%3Dinfo%2540powerdata2go.com%26Message%3Dplease%2520leave%2520your%2520message%2520%26Transcribe%3Dtrue%26&") 
