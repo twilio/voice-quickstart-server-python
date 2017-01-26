@@ -110,13 +110,10 @@ def outgoing():
 
 @app.route('/call_completed', methods=['GET', 'POST'])
 def call_completed():
-  resp = twilio.twiml.Response()
+ resp = twilio.twiml.Response()
 #  phoneNumber = request.values.get('phoneNumber')
-if (request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered") : 
-
-    resp.hangup()
-  else:
-    resp.redirect("http://twimlets.com/menu?Message=Please%20press%20One%20for%20recording%20a%20voice%20mail%20&Options%5B1%5D=http%3A%2F%2Ftwimlets.com%2Fvoicemail%3FEmail%3Dinfo%2540powerdata2go.com%26Message%3Dplease%2520leave%2520your%2520message%2520%26Transcribe%3Dtrue%26&") 
+if (request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered"): resp.hangup()
+else: resp.redirect("http://twimlets.com/menu?Message=Please%20press%20One%20for%20recording%20a%20voice%20mail%20&Options%5B1%5D=http%3A%2F%2Ftwimlets.com%2Fvoicemail%3FEmail%3Dinfo%2540powerdata2go.com%26Message%3Dplease%2520leave%2520your%2520message%2520%26Transcribe%3Dtrue%26&") 
     
   return str(resp)
 
