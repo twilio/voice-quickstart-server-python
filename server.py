@@ -110,8 +110,7 @@ def outgoing():
 
 @app.route('/call_completed', methods=['GET', 'POST'])
 def call_completed():
-      resp = twilio.twiml.Response()
-
+  resp = twilio.twiml.Response()
 #  phoneNumber = request.values.get('phoneNumber')
 if (request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered") : 
 
