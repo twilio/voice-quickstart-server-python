@@ -102,9 +102,19 @@ def outgoing():
         caller_value = '+85258036680'
     resp.dial(callerId=caller_value).number(to)
 
+    resp.dial(action="https://powerdata-test.herokuapp.com/call_completed") 
+    
   # if call end or failed
   # resp.say("The call failed, or the remote party hung up. Goodbye.")
   return str(resp)
+
+
+@app.route('/call_completed', methods=['GET', 'POST'])
+def call_completed():
+#if request.values.get("DialCallStatus") == "completed" or request.values.get("DialCallStatus") == "answered" : 
+  k = {'DialCallStatus': request.values.get("DialCallStatus"), 'phone_number': phoneNumber}
+  return json.dumps(k)
+    
 
 @app.route('/verification', methods=['GET', 'POST'])
 def verification():
