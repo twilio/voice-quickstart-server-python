@@ -100,9 +100,8 @@ def outgoing():
         caller_value = '+85258036680'
     if caller.startswith('client:APP-TEST'):
         caller_value = '+85258036680'
-    resp.dial(callerId=caller_value).number(to)
+    resp.dial(callerId=caller_value,action="https://powerdata-test.herokuapp.com/call_completed").number(to)
 
-    resp.dial(action="https://powerdata-test.herokuapp.com/call_completed") 
     
   # if call end or failed
   # resp.say("The call failed, or the remote party hung up. Goodbye.")
