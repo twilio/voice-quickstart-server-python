@@ -80,10 +80,10 @@ def outgoing():
     else:
         to_client = 'failed_no_client_map'
     
-    resp.dial(callerId=from_value).client(to_client)
+    resp.dial(callerId=from_value,action="https://powerdata-test.herokuapp.com/call_completed").client(to_client)
   elif to.startswith("client:"):
     # client -> client
-    resp.dial(callerId=caller_value).client(to[7:])
+    resp.dial(callerId=caller_value,action="https://powerdata-test.herokuapp.com/call_completed").client(to[7:])
   else:
     # client -> PSTN
     if caller.startswith('client:antony_tes'):
