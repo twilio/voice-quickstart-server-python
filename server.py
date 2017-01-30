@@ -74,9 +74,9 @@ def outgoing():
     elif to.startswith('+8525803668'):
         to_client = 'Testing-HKG'
     elif to.startswith('+653158430'):
-        to_client = 'BKK-TEST'
+        to_client = 'LM-test'
     elif to.startswith('+653158424'):
-        to_client = 'testing_SG'
+        to_client = 'Tife'
     else:
         to_client = 'failed_no_client_map'
     
