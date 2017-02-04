@@ -9,6 +9,7 @@ import twilio.twiml
  
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
  
 EMAIL_SERVER   = 'smtpout.secureserver.net'
 EMAIL_USERNAME = 'voicemail@pd2g.com'
@@ -219,7 +220,7 @@ def handle_recording():
     to_address = 'info@powerdata2go.com'
      
     email_subject = 'New voicemail from {0}'.format(caller_number)
-    email_message = """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title> Voicemail </title></head><body>"""+'A new voicemail has been received: {0}'.format(recording_url)
+    email_message = """"<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title> Voicemail </title></head><body>"""+'A new voicemail has been received: {0}'.format(recording_url)
     
     
     delete_message = '<p> The voicemail is accessible to people with this URL. Please reply this email with DELETE and our system will delete the voice mail' 
@@ -228,7 +229,7 @@ def handle_recording():
       s = smtplib.SMTP(EMAIL_SERVER, 3535)
       s.login(EMAIL_USERNAME, EMAIL_PASSWORD)
      
-      message = MIMEText(email_message + delete_message )
+      message = MIMEText(email_message + delete_message,'html' )
       message['Subject'] = email_subject
       message['From'] = from_address
       message['To'] = to_address
