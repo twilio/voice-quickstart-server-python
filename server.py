@@ -85,8 +85,8 @@ def outgoing():
         url = "https://pdbook.herokuapp.com/getClient?phonenumber="+to
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
-        if not server_record:
-            to_client = server_record['clientName']
+        #if not server_record:
+        to_client = server_record['clientName']
 
 #        if to.startswith('+653158426'):
 #            to_client = 'ClientDavid'
