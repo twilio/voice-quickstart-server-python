@@ -10,9 +10,9 @@ import twilio.twiml
 import smtplib
 from email.mime.text import MIMEText
  
-EMAIL_SERVER   = os.environ['smtpout.secureserver.net']
-EMAIL_USERNAME = os.environ['voicemail@pd2g.com']
-EMAIL_PASSWORD = os.environ['VoicePPP@22']
+EMAIL_SERVER   = 'smtpout.secureserver.net'
+EMAIL_USERNAME = 'voicemail@pd2g.com'
+EMAIL_PASSWORD = 'VoicePPP@22'
  
 
 ACCOUNT_SID = 'AC930ff2e97f313c236fe571db9987e5a0'
@@ -83,7 +83,7 @@ def outgoing():
     elif to.startswith('+8525803668'):
         to_client = 'Testing-HKG'
     elif to.startswith('+653158430'):
-        to_client = 'LM-test'
+        to_client = 'antony_test'
     elif to.startswith('+653158424'):
         to_client = 'Tife'
     else:
