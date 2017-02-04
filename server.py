@@ -130,6 +130,7 @@ def outgoing():
 
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
+return str(resp)
 
 
 @app.route('/call_completed', methods=['GET', 'POST'])
