@@ -67,29 +67,29 @@ def outbound():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  resp = twilio.twiml.Response()
-  from_value = request.values.get('From')
-  caller = request.values.get('Caller')
-  caller_value=caller[7:]
-  to = request.values.get('To')
-  if not (from_value and to):
-    resp.say("Invalid request")
+    resp = twilio.twiml.Response()
+    from_value = request.values.get('From')
+    caller = request.values.get('Caller')
+    caller_value=caller[7:]
+    to = request.values.get('To')
+    if not (from_value and to):
+        resp.say("Invalid request")
     return str(resp)
-from_client = caller.startswith('client')
-account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-api_key = os.environ.get("API_KEY", API_KEY)
-api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
-client = Client(api_key, api_key_secret, account_sid)
+    from_client = caller.startswith('client')
+    account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+    api_key = os.environ.get("API_KEY", API_KEY)
+    api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
+    client = Client(api_key, api_key_secret, account_sid)
 
-  # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-  if not from_client:
+    # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+    if not from_client:
     # PSTN -> client
 
-    url = "https://pdbook.herokuapp.com/getClient?phonenumber="+to
-    response = urllib.urlopen(url)
-    server_record = json.loads(response.read())
-    if not server_record:
-        to_client = server_record['clientName']
+        url = "https://pdbook.herokuapp.com/getClient?phonenumber="+to
+        response = urllib.urlopen(url)
+        server_record = json.loads(response.read())
+        if not server_record:
+            to_client = server_record['clientName']
 
 #        if to.startswith('+653158426'):
 #            to_client = 'ClientDavid'
@@ -101,15 +101,14 @@ client = Client(api_key, api_key_secret, account_sid)
 #            to_client = 'Tife'
 #        else:
 #            to_client = 'failed_no_client_map'
-
-    resp.dial(callerId=from_value,action="https://powerdata-test.herokuapp.com/call_completed").client(to_client)
-  elif to.startswith("client:"):
+            resp.dial(callerId=from_value,action="https://powerdata-test.herokuapp.com/call_completed").client(to_client)
+    elif to.startswith("client:"):
     # client -> client
-    resp.dial(callerId=caller_value,action="https://powerdata-test.herokuapp.com/call_completed").client(to[7:])
-  else:
+        resp.dial(callerId=caller_value,action="https://powerdata-test.herokuapp.com/call_completed").client(to[7:])
+    else:
     # client -> PSTN FriendlyName
-    if caller.startswith('client'):
-        caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:'))
+        if caller.startswith('client'):
+            caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:'))
 
 #    #if caller.startswith('client:antony_tes'):
 #        caller_value = '+6584976337'
@@ -126,11 +125,11 @@ client = Client(api_key, api_key_secret, account_sid)
 #    if caller.startswith('client:APP-TEST'):
 #        caller_value = '+85258036680'
 #    
-    resp.dial(callerId=caller_value,action="https://powerdata-test.herokuapp.com/call_completed").number(to)
+        resp.dial(callerId=caller_value,action="https://powerdata-test.herokuapp.com/call_completed").number(to)
 
 
-  # if call end or failed
-  # resp.say("The call failed, or the remote party hung up. Goodbye.")
+        # if call end or failed
+        # resp.say("The call failed, or the remote party hung up. Goodbye.")
   return str(resp)
 
 
