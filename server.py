@@ -198,12 +198,10 @@ def callMinutes():
   k = {'minutes': result}
   return json.dumps(k)
 
-
- 
 @app.route('/record_greeting', methods=['GET', 'POST'])
 def index():
   resp = twilio.twiml.Response()
-  resp.say('Hi, the user is not able to answer your call. This call is diverted to voicemail and  we will send an email to the user. Please leave your message after the tone.')
+  resp.say('Hi, the user is not able to answer your call. This call is diverted to voicemail. Please leave your message after the tone.')
   resp.record(maxLength='120', action='/record')
   return str(resp)
  
@@ -215,19 +213,20 @@ def handle_recording():
    
   if recording_url is not None:
     resp.say('Thank you for your message.')
-     
+    recording_id = request.values.get('RecordingSid', None)
     caller_number = request.values.get('From', '(unknown)')
     from_address = 'PD2G Voicemail <voicemail@pd2g.com>'
     to_address = 'info@powerdata2go.com'
      
     email_subject = 'New voicemail from {0}'.format(caller_number)
     email_message = 'A new voicemail has been received: {0}'.format(recording_url)
-     
+    delete_message = ' The voicemail is accessible to people with this URL. You can delete the voicemail when you do not need it.'.format('https://powerdata-test.herokuapp.com/del_record')
+    
     try:
       s = smtplib.SMTP(EMAIL_SERVER, 3535)
       s.login(EMAIL_USERNAME, EMAIL_PASSWORD)
      
-      message = MIMEText(email_message)
+      message = MIMEText(email_message + delete_message )
       message['Subject'] = email_subject
       message['From'] = from_address
       message['To'] = to_address
@@ -247,8 +246,54 @@ def handle_recording():
    
   return str(resp)
                  
-                      
-                      
+@app.route('/del_record', methods=['GET', 'POST'])
+def handle_recording():
+recording_id = request.values.get('RecordingSid', None)
+  
+  if recording_id  is not None:
+
+    try:     
+        account_sid = ACCOUNT_SID
+        auth_token = AUTH_TOKEN
+        client = TwilioRestClient(account_sid, auth_token)
+        client.recordings.delete(recording_id)
+    except Exception, e:
+      # even if we can't send the email, not to worry, since Twilio will still save the MP3 on our behalf.
+      print e
+     
+    finally:
+        
+    print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Successfully Deleted Voicemail </title>
+</head>
+
+<body>
+The Voicemail is successfully deteled from our system. Thank you. 
+</body>
+</html>
+"""
+       
+  else:
+print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Error in Deleting Voice Mail Record</title>
+</head>
+
+<body>
+We are unable to delete this voicemail. A error log is alredy recorded. 
+You can contact our support team at support@powerdata2go.com 
+</body>
+</html>
+"""
+  return 0
+    
+    
+    
 @app.route('/contactList', methods=['GET', 'POST'])
 def contactList():
   return json.dumps({'contact': CONTACT_LIST})
