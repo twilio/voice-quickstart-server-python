@@ -248,9 +248,9 @@ def handle_recording():
                  
 @app.route('/del_record', methods=['GET', 'POST'])
 def handle_recording():
-recording_id = request.values.get('RecordingSid', None)
-  
-  if recording_id  is not None:
+    recording_id = request.values.get('RecordingSid', None)
+    
+    if recording_id  is not None:
 
     try:     
         account_sid = ACCOUNT_SID
