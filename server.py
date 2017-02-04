@@ -120,10 +120,12 @@ def outgoing():
 @app.route('/call_completed', methods=['GET', 'POST'])
 def call_completed():
     resp = twilio.twiml.Response()
+     from_value = request.values.get('From')
+  caller = request.values.get('Caller')
 #  phoneNumber = request.values.get('phoneNumber')
     if (request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered"): 
         resp.hangup()
-    else: 
+    elif : not caller.startswith('client')
         resp.redirect("https://powerdata-test.herokuapp.com/record_greeting")
             
             #"http://twimlets.com/menu?Message=Please%20press%20One%20for%20recording%20a%20voice%20mail%20&Options%5B1%5D=http%3A%2F%2Ftwimlets.com%2Fvoicemail%3FEmail%3Dinfo%2540powerdata2go.com%26Message%3Dplease%2520leave%2520your%2520message%2520%26Transcribe%3Dtrue%26&") 
@@ -201,7 +203,7 @@ def callMinutes():
 @app.route('/record_greeting', methods=['GET', 'POST'])
 def index():
   resp = twilio.twiml.Response()
-  resp.say('Hi, the user is not able to answer your call. We will record a voicemail and send an email to the user. Please leave your message after the tone.')
+  resp.say('Hi, the user is not able to answer your call. This call is diverted to voicemail and  we will send an email to the user. Please leave your message after the tone.')
   resp.record(maxLength='120', action='/record')
   return str(resp)
  
@@ -215,7 +217,7 @@ def handle_recording():
     resp.say('Thank you for your message.')
      
     caller_number = request.values.get('From', '(unknown)')
-    from_address = 'PD2G Voicemail <voice@pd2g.com>'
+    from_address = 'PD2G Voicemail <voicemail@pd2g.com>'
     to_address = 'info@powerdata2go.com'
      
     email_subject = 'New voicemail from {0}'.format(caller_number)
