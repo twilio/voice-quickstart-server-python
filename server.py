@@ -220,7 +220,7 @@ def handle_recording():
      
     email_subject = 'New voicemail from {0}'.format(caller_number)
     email_message = 'A new voicemail has been received: {0}'.format(recording_url)
-    delete_message = ' The voicemail is accessible to people with this URL. You can delete the voicemail when you do not need it.'.format('https://powerdata-test.herokuapp.com/del_record')
+    delete_message = ' The voicemail is accessible to people with this URL. You can delete the voicemail when you do not need it.'.format('https://powerdata-test.herokuapp.com/del_vm_record')
     
     try:
       s = smtplib.SMTP(EMAIL_SERVER, 3535)
@@ -246,7 +246,7 @@ def handle_recording():
    
   return str(resp)
                  
-@app.route('/del_record', methods=['GET', 'POST'])
+@app.route('/del_vm_record', methods=['GET', 'POST'])
 def handle_recording():
     recording_id = request.values.get('RecordingSid', None)
     
