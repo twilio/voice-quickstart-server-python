@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import os
 import json
 from flask import Flask, request
@@ -132,7 +133,7 @@ def outgoing():
 
     # client -> PSTN FriendlyName
 
-        if caller.startswith('client'):
+        if caller.startswith('client:'):
             caller_value = \
                 client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:'
                     ))
@@ -153,7 +154,7 @@ def outgoing():
 #        caller_value = '+85258036680'
 #
 
-            resp.dial(callerId=caller_value,
+        resp.dial(callerId=caller_value,
                       action='https://powerdata-test.herokuapp.com/call_completed'
                       ).number(to)
 
