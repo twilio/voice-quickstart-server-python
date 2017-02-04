@@ -75,7 +75,12 @@ def outgoing():
   if not (from_value and to):
     resp.say("Invalid request")
     return str(resp)
-  from_client = caller.startswith('client')
+    from_client = caller.startswith('client')
+    account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+    api_key = os.environ.get("API_KEY", API_KEY)
+    api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
+    client = Client(api_key, api_key_secret, account_sid)
+
   # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   if not from_client:
     # PSTN -> client
