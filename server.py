@@ -6,6 +6,15 @@ from twilio.rest import Client
 from datetime import date
 import twilio.twiml
 
+ 
+import smtplib
+from email.mime.text import MIMEText
+ 
+EMAIL_SERVER   = os.environ['smtpout.secureserver.net']
+EMAIL_USERNAME = os.environ['voicemail@pd2g.com']
+EMAIL_PASSWORD = os.environ['VoicePPP@22']
+ 
+
 ACCOUNT_SID = 'AC930ff2e97f313c236fe571db9987e5a0'
 API_KEY = 'SKc0f6bc9d50890b39ee18a597bfd1f6a7'
 API_KEY_SECRET = '5ALedwHKH9P2FzXSxCuwC4KZqp3MDvEb'
@@ -115,7 +124,9 @@ def call_completed():
     if (request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered"): 
         resp.hangup()
     else: 
-        resp.redirect("http://twimlets.com/menu?Message=Please%20press%20One%20for%20recording%20a%20voice%20mail%20&Options%5B1%5D=http%3A%2F%2Ftwimlets.com%2Fvoicemail%3FEmail%3Dinfo%2540powerdata2go.com%26Message%3Dplease%2520leave%2520your%2520message%2520%26Transcribe%3Dtrue%26&") 
+        resp.redirect("https://powerdata-test.herokuapp.com/record_greeting"
+            
+            #"http://twimlets.com/menu?Message=Please%20press%20One%20for%20recording%20a%20voice%20mail%20&Options%5B1%5D=http%3A%2F%2Ftwimlets.com%2Fvoicemail%3FEmail%3Dinfo%2540powerdata2go.com%26Message%3Dplease%2520leave%2520your%2520message%2520%26Transcribe%3Dtrue%26&") 
     return str(resp)
 
  # k = {'DialCallStatus': request.values.get("DialCallStatus")}
@@ -185,6 +196,57 @@ def callMinutes():
   k = {'minutes': result}
   return json.dumps(k)
 
+
+ 
+@app.route('/record_greeting', methods=['GET', 'POST'])
+def index():
+  resp = twilio.twiml.Response()
+  resp.say('Hi, the user is not able to answer your call. We will record a voicemail and send an email to the user. Please leave your message after the tone.')
+  resp.record(maxLength='120', action='/record')
+  return str(resp)
+ 
+ 
+@app.route('/record', methods=['GET', 'POST'])
+def handle_recording():
+  recording_url = request.values.get('RecordingUrl', None)
+  resp = twilio.twiml.Response()
+   
+  if recording_url is not None:
+    resp.say('Thank you for your message.')
+     
+    caller_number = request.values.get('From', '(unknown)')
+    from_address = 'PD2G Voicemail <voice@pd2g.com>'
+    to_address = 'info@powerdata2go.com'
+     
+    email_subject = 'New voicemail from {0}'.format(caller_number)
+    email_message = 'A new voicemail has been received: {0}'.format(recording_url)
+     
+    try:
+      s = smtplib.SMTP(EMAIL_SERVER, 3535)
+      s.login(EMAIL_USERNAME, EMAIL_PASSWORD)
+     
+      message = MIMEText(email_message)
+      message['Subject'] = email_subject
+      message['From'] = from_address
+      message['To'] = to_address
+     
+      s.sendmail(from_address, [to_address,], message.as_string())
+     
+    except Exception, e:
+      # even if we can't send the email, not to worry, since Twilio will still save the MP3 on our behalf.
+      print e
+     
+    finally:
+      s.quit()
+       
+  else:
+    resp.say('There was a problem with your voicemail.')
+  resp.say('Goodbye.')
+   
+  return str(resp)
+                 
+                      
+                      
 @app.route('/contactList', methods=['GET', 'POST'])
 def contactList():
   return json.dumps({'contact': CONTACT_LIST})
