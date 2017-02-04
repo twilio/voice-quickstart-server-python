@@ -54,8 +54,7 @@ def token():
     app_sid = os.environ.get('APP_SID', APP_SID)
 
     if platform == 'ios':
-        push_credential_sid = os.environ.get('PUSH_CREDENTIAL_SID_IOS',
-                PUSH_CREDENTIAL_SID_IOS)
+        push_credential_sid = os.environ.get('PUSH_CREDENTIAL_SID_IOS',PUSH_CREDENTIAL_SID_IOS)
     else:
         push_credential_sid = \
             os.environ.get('PUSH_CREDENTIAL_SID_ANDROID',
