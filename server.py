@@ -219,8 +219,10 @@ def handle_recording():
     to_address = 'info@powerdata2go.com'
      
     email_subject = 'New voicemail from {0}'.format(caller_number)
-    email_message = 'A new voicemail has been received: {0}'.format(recording_url)
-    delete_message = ' The voicemail is accessible to people with this URL. You can delete the voicemail when you do not need it.'.format('https://powerdata-test.herokuapp.com/del_vm_record')
+    email_message = """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title> Voicemail </title></head><body>"""+'A new voicemail has been received: {0}'.format(recording_url)
+    
+    
+    delete_message = '<p> The voicemail is accessible to people with this URL. Please reply this email with DELETE and our system will delete the voice mail' 
     
     try:
       s = smtplib.SMTP(EMAIL_SERVER, 3535)
