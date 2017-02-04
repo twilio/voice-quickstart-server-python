@@ -252,17 +252,17 @@ def handle_recording():
     
     if recording_id  is not None:
         try:     
-        account_sid = ACCOUNT_SID
-        auth_token = AUTH_TOKEN
-        client = TwilioRestClient(account_sid, auth_token)
-        client.recordings.delete(recording_id)
-        except Exception, e:
-            print e
-            finally:
-                print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Successfully Deleted Voicemail </title></head><body>The Voicemail is successfully deteled from our system. Thank you. </body></html>"""
-                else:
-                    print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Error in Deleting Voice Mail Record</title></head><body>We are unable to delete this voicemail. A error log is alredy recorded. You can contact our support team at support@powerdata2go.com </body></html>"""
-        return 0
+            account_sid = ACCOUNT_SID
+            auth_token = AUTH_TOKEN
+            client = TwilioRestClient(account_sid, auth_token)
+            client.recordings.delete(recording_id)
+            except Exception, e:
+                print e
+                finally:
+                    print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Successfully Deleted Voicemail </title></head><body>The Voicemail is successfully deteled from our system. Thank you. </body></html>"""
+    else:
+        print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Error in Deleting Voice Mail Record</title></head><body>We are unable to delete this voicemail. A error log is alredy recorded. You can contact our support team at support@powerdata2go.com </body></html>"""
+    return 0
     
     
     
