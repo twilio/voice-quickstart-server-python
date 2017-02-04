@@ -247,7 +247,7 @@ def handle_recording():
   return str(resp)
                  
 @app.route('/del_vm_record', methods=['GET', 'POST'])
-def handle_recording():
+def del_vm_record():
     recording_id = request.values.get('RecordingSid', None)
     
     if recording_id is not None:
