@@ -104,9 +104,9 @@ def outgoing():
         resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").client(to[7:])
     else:
     # client -> PSTN FriendlyName
-        if caller.startswith('client'):
-            caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:'))  
-            resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
+        #if caller.startswith('client'):
+        caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:')) 
+        resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
     return str(resp)
@@ -118,7 +118,7 @@ def call_completed():
     from_value = request.values.get('From')
     caller = request.values.get('Caller')
 #  phoneNumber = request.values.get('phoneNumber')
-    if request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered": 
+    if request.values.get("DialCallStatus") == 'completed' or request.values.get("DialCallStatus") == "answered":
         resp.hangup()
     elif not caller.startswith('client'):
         resp.redirect("https://powerdata-test.herokuapp.com/record_greeting")
