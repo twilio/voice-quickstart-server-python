@@ -84,7 +84,7 @@ def outgoing():
     response = urllib.urlopen(url)
     server_record = json.loads(response.read())
     if not server_record:
-    to_client = server_record['clientName']
+        to_client = server_record['clientName']
 
 #        if to.startswith('+653158426'):
 #            to_client = 'ClientDavid'
@@ -104,7 +104,7 @@ def outgoing():
   else:
     # client -> PSTN FriendlyName
     if caller.startswith('client'):
-    caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:'))
+        caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:'))
 
 #    #if caller.startswith('client:antony_tes'):
 #        caller_value = '+6584976337'
