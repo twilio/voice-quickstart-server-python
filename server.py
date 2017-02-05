@@ -107,7 +107,7 @@ def outgoing():
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
         if server_record:
-            to_client = server_record[0]['clientName']
+            to_client = server_record['clientName']
 
 #        if to.startswith('+653158426'):
 #            to_client = 'ClientDavid'
