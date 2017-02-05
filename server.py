@@ -85,8 +85,8 @@ def outgoing():
         url = "https://pdbook.herokuapp.com/getClient?phonenumber="+to
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
-        #if not server_record:
-        to_client = server_record['clientName']
+        if not server_record:
+            to_client = server_record['clientName']
 
 #        if to.startswith('+653158426'):
 #            to_client = 'ClientDavid'
@@ -105,10 +105,10 @@ def outgoing():
         resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").client(to[7:])
     else:
     # client -> PSTN FriendlyName
-        #if caller.startswith('client'):
-        print "client"+caller
-        caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:')) 
-        resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
+        if caller.startswith('client'):
+            print "client"+caller
+            caller_value = client.outgoing_caller_ids.list(friendly_name=caller.lstrip('client:')) 
+            resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
     return str(resp)
