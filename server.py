@@ -141,6 +141,7 @@ def outgoing():
                     'https://pdbook.herokuapp.com/getPhoneNumber?client_name=' \
                     + caller.lstrip('client:')
                 response = urllib.urlopen(url)
+                userCallerNumber='+6531584308'
                 server_record = json.loads(response.read())
                 if server_record:
                     userCallerNumber = server_record['phoneNumber']
@@ -148,7 +149,7 @@ def outgoing():
                           action='https://powerdata-test.herokuapp.com/call_completed'
                           ).number(to)
             except Exception, e:
-                print e +userCallerNumber
+                print e + userCallerNumber
             finally:
                 print 'client -> PSTN'
 
