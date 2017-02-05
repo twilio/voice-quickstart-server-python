@@ -103,7 +103,7 @@ def outgoing():
     # PSTN -> client
 
         print 'client' + caller
-        url = 'https://pdbook.herokuapp.com/getClient?phonenumber=' + quote(to)
+        url = 'https://pdbook.herokuapp.com/getClient?phonenumber=' + urllib.quote(to)
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
         if server_record:
