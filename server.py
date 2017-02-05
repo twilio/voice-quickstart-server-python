@@ -71,7 +71,7 @@ def outgoing():
     to = request.values.get('To')
     if not (from_value and to):
         resp.say("Invalid request")
-    return str(resp)
+        return str(resp)
     from_client = caller.startswith('client')
     account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
     api_key = os.environ.get("API_KEY", API_KEY)
