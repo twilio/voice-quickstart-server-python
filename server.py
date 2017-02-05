@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import os
 import json
 from flask import Flask, request
@@ -127,6 +128,7 @@ def outgoing():
     # client -> client
 
         print 'client' + caller
+
         resp.dial(callerId=caller_value,
                   action='https://powerdata-test.herokuapp.com/call_completed'
                   ).client(to[7:])
@@ -136,22 +138,27 @@ def outgoing():
 
         if caller.startswith('client'):
             print 'client' + caller
-            try:
-                url = \
-                    'https://pdbook.herokuapp.com/getPhoneNumber?client_name=' \
-                    + caller[7:]
-                response = urllib.urlopen(url)
-                userCallerNumber='+6531584308'
-                server_record = json.loads(response.read())
-                if server_record:
-                    userCallerNumber = server_record['phoneNumber']
-                resp.dial(callerId=userCallerNumber,
-                          action='https://powerdata-test.herokuapp.com/call_completed'
-                          ).number(to)
-            except Exception, e:
-                print e  
-            finally:
-                print 'client -> PSTN'
+
+            # try:
+
+            url = \
+                'https://pdbook.herokuapp.com/getPhoneNumber?client_name=' \
+                + caller[7:]
+            response = urllib.urlopen(url)
+            userCallerNumber = '+6531584308'
+            server_record = json.loads(response.read())
+            if server_record:
+                userCallerNumber = server_record['phoneNumber']
+
+            resp.dial(callerId=userCallerNumber,
+                      action='https://powerdata-test.herokuapp.com/call_completed'
+                      ).number(to)
+
+            # except Exception, e:
+            #    print e
+            # finally:
+
+            print 'client -> PSTN' + userCallerNumber
 
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
@@ -164,8 +171,6 @@ def call_completed():
     resp = twilio.twiml.Response()
     from_value = request.values.get('From')
     caller = request.values.get('Caller')
-
-#  phoneNumber = request.values.get('phoneNumber')
 
     if request.values.get('DialCallStatus') == 'completed' \
         or request.values.get('DialCallStatus') == 'answered':
