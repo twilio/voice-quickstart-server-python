@@ -108,7 +108,7 @@ def outgoing():
         if caller.startswith('client'):
             print "client"+caller
             caller_instance = client.outgoing_caller_ids.list(friendly_name=caller.lstrip('client:')) 
-            caller_obj = client.outgoing_caller_ids.get( caller_instance.sid)
+            caller_obj = client.outgoing_caller_ids.OutgoingCallerIdContext.fetch( caller_instance)
             resp.dial(callerId=caller_obj.phone_number, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
