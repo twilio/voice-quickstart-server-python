@@ -106,7 +106,7 @@ def outgoing():
         url = 'https://pdbook.herokuapp.com/getClient?phonenumber=' + to
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
-        if not server_record:
+        if server_record:
             to_client = server_record[0]['clientName']
 
 #        if to.startswith('+653158426'):
