@@ -286,15 +286,26 @@ def index():
 @app.route('/record', methods=['GET', 'POST'])
 def handle_recording():
     recording_url = request.values.get('RecordingUrl', None)
+    to_client = request.values.get('To', None)
     resp = twilio.twiml.Response()
+    email_address = 'temp@pd2g.com'
+
+    if to_client : 
+        url = 'https://pdbook.herokuapp.com/getClient?phonenumber='+ to_client
+        response = urllib.urlopen(url)
+        server_record = json.loads(response.read())
+        if server_record:
+            email_address = server_record['clientEmail']
 
     if recording_url is not None:
         resp.say('Thank you for your message.')
         recording_id = request.values.get('RecordingSid', None)
         caller_number = request.values.get('From', '(unknown)')
         from_address = 'PD2G Voicemail <voicemail@pd2g.com>'
-        to_address = 'info@powerdata2go.com'
+        to_address = email_address
+        #'info@powerdata2go.com'
 
+      
         email_subject = 'New voicemail from {0}'.format(caller_number)
         email_message = \
             """"<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title> Voicemail </title></head><body>""" \
