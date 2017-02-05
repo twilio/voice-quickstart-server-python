@@ -107,7 +107,8 @@ def outgoing():
     # client -> PSTN FriendlyName
         if caller.startswith('client'):
             print "client"+caller
-            caller_value = client.outgoing_caller_ids.list(friendly_name=caller.lstrip('client:')) 
+            caller_sid = client.outgoing_caller_ids.list(friendly_name=caller.lstrip('client:')) 
+            callerId = client.caller_ids.get( caller_sid.sid)
             resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
