@@ -111,7 +111,7 @@ def outgoing():
                 url = "https://pdbook.herokuapp.com/getPhoneNumber?client_name="+caller.lstrip('client:')
                 response = urllib.urlopen(url)
                 server_record = json.loads(response.read())
-                if not server_record:
+                if server_record:
                     userCallerNumber = server_record['phoneNumber']        
                 resp.dial(callerId=userCallerNumber, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
             except Exception, e:
