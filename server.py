@@ -112,12 +112,12 @@ def outgoing():
                 response = urllib.urlopen(url)
                 server_record = json.loads(response.read())
                 if not server_record:
-                    reg-phoneNumber = server_record['phoneNumber']        
-                resp.dial(callerId=reg-phoneNumber, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
+                    userCallerNumber = server_record['phoneNumber']        
+                resp.dial(callerId=userCallerNumber, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
             except Exception, e:
-                
+                print e
             finally: 
-                print "client -> PSTN"+reg-phoneNumber
+                    print "client -> PSTN"
 
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
