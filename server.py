@@ -2,7 +2,7 @@ import os
 import json
 from flask import Flask, request
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 from datetime import date
 import twilio.twiml
 import urllib, json
@@ -76,7 +76,8 @@ def outgoing():
     account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
     api_key = os.environ.get("API_KEY", API_KEY)
     api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
-    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    client = Client(api_key, api_key_secret, account_sid)
+
     # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
     if not from_client:
     # PSTN -> client
@@ -106,9 +107,9 @@ def outgoing():
     # client -> PSTN FriendlyName
         if caller.startswith('client'):
             print "client"+caller
-            caller_obj = client.caller_ids.list(friendly_name=caller.lstrip('client:')) 
-            callerId = client.caller_ids.get( caller_obj.sid)
-            resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
+            caller_instance = client.outgoing_caller_ids.list(friendly_name=caller.lstrip('client:')) 
+            caller_obj = client.get( caller_instance.sid)
+            resp.dial(callerId=caller_obj.phone_number, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
         # if call end or failed
         # resp.say("The call failed, or the remote party hung up. Goodbye.")
     return str(resp)
@@ -136,11 +137,11 @@ def verification():
     api_key = os.environ.get("API_KEY", API_KEY)
     api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
 
-    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    client = Client(api_key, api_key_secret, account_sid)
 
     phoneNumber = request.values.get('phoneNumber')
     friendlyName = request.values.get('friendlyName')
-    new_phone = client.caller_ids.validate(phoneNumber, friendly_name=friendlyName, call_delay=15)
+    new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName, call_delay=15)
     k = {'validation_code': str(new_phone.validation_code)}
     return json.dumps(k)
 
