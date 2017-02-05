@@ -289,9 +289,10 @@ def handle_recording():
     to_client = request.values.get('To', None)
     resp = twilio.twiml.Response()
     email_address = 'temp@pd2g.com'
+    print "to_client"+to_client
 
     if to_client : 
-        url = 'https://pdbook.herokuapp.com/getClient?phonenumber='+ to_client
+        url = 'https://pdbook.herokuapp.com/getClient?phonenumber='+ urllib.quote(to_client)
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
         if server_record:
