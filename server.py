@@ -81,7 +81,7 @@ def outgoing():
     # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
     if not from_client:
     # PSTN -> client
-
+        print "client"+caller
         url = "https://pdbook.herokuapp.com/getClient?phonenumber="+to
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
@@ -101,10 +101,12 @@ def outgoing():
         resp.dial(callerId=from_value, action="https://powerdata-test.herokuapp.com/call_completed").client(to_client)
     elif to.startswith("client:"):
     # client -> client
+        print "client"+caller
         resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").client(to[7:])
     else:
     # client -> PSTN FriendlyName
         #if caller.startswith('client'):
+        print "client"+caller
         caller_value = client.outgoing_caller_ids.list(FriendlyName=caller.lstrip('client:')) 
         resp.dial(callerId=caller_value, action="https://powerdata-test.herokuapp.com/call_completed").number(to)
         # if call end or failed
@@ -130,17 +132,17 @@ def call_completed():
 
 @app.route('/verification', methods=['GET', 'POST'])
 def verification():
-  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  api_key = os.environ.get("API_KEY", API_KEY)
-  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
+    account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+    api_key = os.environ.get("API_KEY", API_KEY)
+    api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)		
 
-  client = Client(api_key, api_key_secret, account_sid)
+    client = Client(api_key, api_key_secret, account_sid)
 
-  phoneNumber = request.values.get('phoneNumber')
-  friendlyName = request.values.get('friendlyName')
-  new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName, call_delay=15)
-  k = {'validation_code': str(new_phone.validation_code)}
-  return json.dumps(k)
+    phoneNumber = request.values.get('phoneNumber')
+    friendlyName = request.values.get('friendlyName')
+    new_phone = client.validation_requests.create(phoneNumber, friendly_name=friendlyName, call_delay=15)
+    k = {'validation_code': str(new_phone.validation_code)}
+    return json.dumps(k)
 
 @app.route('/checkPhoneNumber', methods=['GET', 'POST'])
 def checkPhoneNumber():
