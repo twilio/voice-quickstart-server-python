@@ -193,14 +193,24 @@ def verification():
     api_key_secret = os.environ.get('API_KEY_SECRET', API_KEY_SECRET)
 
     client = Client(api_key, api_key_secret, account_sid)
-
-    phoneNumber = request.values.get('phoneNumber')
-    friendlyName = request.values.get('friendlyName')
-    new_phone = client.validation_requests.create(phoneNumber,
-            friendly_name=friendlyName, call_delay=15)
-    k = {'validation_code': str(new_phone.validation_code)}
-    return json.dumps(k)
-
+    try: 
+        phoneNumber = request.values.get('phoneNumber')
+        friendlyName = request.values.get('friendlyName')
+        new_phone = client.validation_requests.create(phoneNumber,
+                                                      friendly_name=friendlyName, call_delay=10)
+        k = {'validation_code': str(new_phone.validation_code)}
+    
+        url = 'https://pdbook.herokuapp.com/addVerified?phonenumber='+ urllib.quote(phoneNumber)+'&clientName='+friendlyName 
+        
+        response = urllib.urlopen(url)
+        server_record = json.loads(response.read())
+        if server_record:
+            modified = server_record['nModified']
+    except Exception, e:
+            print "error in call verification "+phoneNumber+friendlyName
+            print e
+    finally:
+            return json.dumps(k)
 
 @app.route('/checkPhoneNumber', methods=['GET', 'POST'])
 def checkPhoneNumber():
@@ -291,7 +301,7 @@ def handle_recording():
     email_address = 'temp@pd2g.com'
     print "to_client"+to_client
 
-    if to_client : 
+    if to_client is not None: 
         url = 'https://pdbook.herokuapp.com/getClient?phonenumber='+ urllib.quote(to_client)
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
@@ -327,8 +337,7 @@ def handle_recording():
             s.sendmail(from_address, [to_address], message.as_string())
         except Exception, e:
 
-      # even if we can't send the email, not to worry, since Twilio will still save the MP3 on our behalf.
-
+            print "error in send VM email"
             print e
         finally:
 
@@ -336,7 +345,7 @@ def handle_recording():
     else:
 
         resp.say('There was a problem with your voicemail.')
-    resp.say('Goodbye.')
+        resp.say('Goodbye.')
 
     return str(resp)
 
