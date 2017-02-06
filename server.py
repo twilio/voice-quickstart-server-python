@@ -197,7 +197,7 @@ def verification():
     phoneNumber = request.values.get('phoneNumber')
     friendlyName = request.values.get('friendlyName')
     new_phone = client.validation_requests.create(phoneNumber,
-            friendly_name=friendlyName, call_delay=15)
+            friendly_name=friendlyName, call_delay=10)
     k = {'validation_code': str(new_phone.validation_code)}
     return json.dumps(k)
 
