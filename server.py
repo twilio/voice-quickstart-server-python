@@ -193,6 +193,7 @@ def verification():
     api_key_secret = os.environ.get('API_KEY_SECRET', API_KEY_SECRET)
 
     client = Client(api_key, api_key_secret, account_sid)
+<<<<<<< HEAD
     try: 
         phoneNumber = request.values.get('phoneNumber')
         friendlyName = request.values.get('friendlyName')
@@ -211,6 +212,16 @@ def verification():
             print e
     finally:
             return json.dumps(k)
+=======
+
+    phoneNumber = request.values.get('phoneNumber')
+    friendlyName = request.values.get('friendlyName')
+    new_phone = client.validation_requests.create(phoneNumber,
+            friendly_name=friendlyName, call_delay=10)
+    k = {'validation_code': str(new_phone.validation_code)}
+    return json.dumps(k)
+
+>>>>>>> heroku/master
 
 @app.route('/checkPhoneNumber', methods=['GET', 'POST'])
 def checkPhoneNumber():
