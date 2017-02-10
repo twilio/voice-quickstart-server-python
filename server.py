@@ -148,7 +148,7 @@ def outgoing():
             userCallerNumber = '+6531584308'
             server_record = json.loads(response.read())
             if server_record:
-                userCallerNumber = server_record[0]['phoneNumber']
+                userCallerNumber = server_record[0]['clientNum']
 
             resp.dial(callerId=userCallerNumber,
                       action='https://powerdata-test.herokuapp.com/call_completed'
