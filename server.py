@@ -10,6 +10,7 @@ from datetime import date
 import twilio.twiml
 import urllib
 import json
+import urlparse
 
 import smtplib
 from email.mime.text import MIMEText
@@ -31,10 +32,6 @@ APP_SID = 'APaafd4dcb530c4c3811e85738f4df3f7f'
 AUTH_TOKEN = 'f2f4669503e0ca0b04a8ed3f50bb489b'
 CONTACT_LIST = [
     {'userName': 'Phong'},
-    {'userName': 'Dinh'},
-    {'userName': 'Antony'},
-    {'userName': 'Khanh'},
-    {'userName': 'Tan'},
     {'userName': 'Hiep'},
     ]
 
@@ -101,24 +98,16 @@ def outgoing():
     if not from_client:
 
     # PSTN -> client
+##?? fence off URL calls not from one URL 
 
-        print 'client' + caller
+        print 'number:' + caller
         url = 'https://pdbook.herokuapp.com/getClient?phonenumber=' + urllib.quote(to)
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
         if server_record:
             to_client = server_record['clientName']
 
-#        if to.startswith('+653158426'):
-#            to_client = 'ClientDavid'
-#        elif to.startswith('+8525803668'):
-#            to_client = 'Testing-HKG'
-#        elif to.startswith('+653158430'):
-#            to_client = 'antony_test'
-#        elif to.startswith('+653158424'):
-#            to_client = 'Tife'
-#        else:
-#            to_client = 'failed_no_client_map'
+#       ??is there a way to check the client status ? 
 
         resp.dial(callerId=from_value,
                   action='https://powerdata-test.herokuapp.com/call_completed'
@@ -127,20 +116,16 @@ def outgoing():
 
     # client -> client
 
-        print 'client' + caller
-
+        print 'client:' + caller
         resp.dial(callerId=caller_value,
                   action='https://powerdata-test.herokuapp.com/call_completed'
                   ).client(to[7:])
     else:
 
     # client -> PSTN FriendlyName
-
+    # ?? even cannot get caller ID we still need to deliver the call (by using a default caller) 
         if caller.startswith('client'):
-            print 'client' + caller
-
-            # try:
-
+            print 'client:-> PSTN' + caller
             url = \
                 'https://pdbook.herokuapp.com/getPhoneNumber?client_name=' \
                 + caller[7:]
@@ -314,8 +299,8 @@ def handle_recording():
         caller_number = request.values.get('From', '(unknown)')
         from_address = 'PD2G Voicemail <voicemail@pd2g.com>'
         to_address = email_address
-        #'info@powerdata2go.com'
-
+        parsed = urlparse.urlparse(recording_url)
+        replaced = parsed._replace(netloc="voice.pd2g.com")
       
         email_subject = 'New voicemail from {0}'.format(caller_number)
         email_message = \
@@ -323,7 +308,7 @@ def handle_recording():
             + 'Dear User : A new voicemail has been received: {0}'.format(recording_url)
 
         delete_message = \
-            '<p> The voicemail is accessible to people with the URL. When you no longer need this voice mail, you can simply reply with keyword "Delete" and our system will delete the voice mail. <br> Thank you and Have a Great Day. '
+            '<p> The voicemail is accessible to people with the URL. When you no longer need this voice mail, you can simply reply with keyword "Delete" and our system will delete this recording. <br> Thank you and Have a Great Day. '
 
         try:
             s = smtplib.SMTP(EMAIL_SERVER, 3535)
@@ -333,7 +318,7 @@ def handle_recording():
             message['Subject'] = email_subject
             message['From'] = from_address
             message['To'] = to_address
-
+#add bcc 
             s.sendmail(from_address, [to_address], message.as_string())
         except Exception, e:
 
