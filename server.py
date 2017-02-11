@@ -287,7 +287,7 @@ def handle_recording():
     print "to_client"+to_client
 
     if to_client is not None: 
-        url = 'https://pdbook.herokuapp.com/getClient?phonenumber='+ urllib.quote(to_client)
+        url = 'https://pdbook.herokuapp.com/getEmail?phonenumber='+ urllib.quote(to_client)
         response = urllib.urlopen(url)
         server_record = json.loads(response.read())
         if server_record:
