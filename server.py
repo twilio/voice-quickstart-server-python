@@ -300,8 +300,7 @@ def handle_recording():
         from_address = 'PD2G Voicemail <voicemail@pd2g.com>'
         to_address = email_address
         parsed = urlparse.urlparse(recording_url)
-        replaced_url = parsed._replace(netloc="voice.pd2g.com")
-        replaced_url.scheme ='http'
+        replaced_url = parsed._replace(netloc="voice.pd2g.com",scheme="http")
       
         email_subject = 'New voicemail from {0}'.format(caller_number)
         email_message = \
