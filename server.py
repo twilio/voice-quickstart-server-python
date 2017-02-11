@@ -300,13 +300,12 @@ def handle_recording():
         from_address = 'PD2G Voicemail <voicemail@pd2g.com>'
         to_address = email_address
         parsed = urlparse.urlparse(recording_url)
-        replaced = parsed._replace(netloc="voice.pd2g.com")
+        replaced_url = parsed._replace(netloc="voice.pd2g.com")
       
         email_subject = 'New voicemail from {0}'.format(caller_number)
         email_message = \
             """"<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title> Voicemail </title></head><body>""" \
-            + 'Dear User : A new voicemail has been received: {0}'.format(recording_url)
-
+            + 'Dear User : A new voicemail has been received: {0}'.format(replaced_url)
         delete_message = \
             '<p> The voicemail is accessible to people with the URL. When you no longer need this voice mail, you can simply reply with keyword "Delete" and our system will delete this recording. <br> Thank you and Have a Great Day. '
 
