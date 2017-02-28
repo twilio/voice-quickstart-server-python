@@ -16,7 +16,7 @@ Download the client-side Quickstart Application for Android here:
 Prerequisites
 ---
 
-* A Twilio Acccount. Don't have one? [Sign up](https://www.twilio.com/try-twilio) for free!
+* A Twilio Account. Don't have one? [Sign up](https://www.twilio.com/try-twilio) for free!
 * Follow the [iOS full quickstart tutorial here](https://www.twilio.com/docs/api/voice-sdk/ios/getting-started) or [Android full quickstart tutorial here](https://www.twilio.com/docs/api/voice-sdk/android/getting-started).
 
 Up and running
