@@ -235,7 +235,7 @@ def callLog():
         if call.direction != 'inbound':
             tmp = {
                 'contact': call.from_formatted,
-                'type': 'Inbox',
+                'type': 'Phone',
                 'status': call.status,
                 'duration': call.duration,
                 'starttime': str(call.start_time),
