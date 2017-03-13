@@ -231,7 +231,7 @@ def callLog():
         userCallerNumber = server_record[0]['clientNum']
 
     result = []
-    for call in client.calls.list(to=userCallerNumber,StartTime>'2017-02-11'):
+    for call in client.calls.list(to=userCallerNumber,StartTime>='2017-02-11'):
         if call.direction != 'inbound':
             tmp = {
                 'contact': call.from_formatted,
@@ -241,7 +241,7 @@ def callLog():
                 'starttime': str(call.start_time),
                 }
             result.append(tmp)
-    for call in client.calls.list(from_=userCallerNumber,StartTime>'2017-02-11'):
+    for call in client.calls.list(from_=userCallerNumber,StartTime>='2017-02-11'):
         if call.direction != 'inbound':
             tmp = {
                 'type': 'Outbox',
