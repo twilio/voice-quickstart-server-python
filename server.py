@@ -222,8 +222,16 @@ def callLog():
 
     client = Client(api_key, api_key_secret, account_sid)
     client_name = request.values.get('client')
+    url = 'https://pdbook.herokuapp.com/getPhoneNumber?client_name=' \
+        + client_name
+    response = urllib.urlopen(url)
+    userCallerNumber = '+6531584308'
+    server_record = json.loads(response.read())
+    if server_record:
+        userCallerNumber = server_record[0]['clientNum']
+
     result = []
-    for call in client.calls.list(to='client:' + client_name):
+    for call in client.calls.list(to=userCallerNumber):
         if call.direction != 'inbound':
             tmp = {
                 'contact': call.from_formatted,
@@ -233,7 +241,7 @@ def callLog():
                 'starttime': str(call.start_time),
                 }
             result.append(tmp)
-    for call in client.calls.list(from_='client:' + client_name):
+    for call in client.calls.list(from_=userCallerNumber):
         if call.direction != 'inbound':
             tmp = {
                 'type': 'Outbox',
