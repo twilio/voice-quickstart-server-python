@@ -12,6 +12,7 @@ APP_SID = 'AP***'
 
 IDENTITY = 'voice_test'
 CALLER_ID = 'quick_start'
+CALLER_PHONE = '+1****'
 
 app = Flask(__name__)
 
@@ -44,6 +45,26 @@ def incoming():
   resp = twilio.twiml.Response()
   resp.say("Congratulations! You have received your first inbound call! Good bye.")
   return str(resp)
+
+@app.route('/call', methods=['GET', 'POST'])
+def call():
+    resp = twilio.twiml.Response()
+    from_caller = request.values.get('From')
+    to = request.values.get('To')
+    if not (from_caller and to):
+        resp.say("Invalid request")
+        return str(resp)
+    from_client = from_caller.startswith('client')
+    if not from_client:
+       # PSTN -> Client
+       resp.dial(callerId=from_client).client(IDENTITY)
+    elif to.startswith("client:"):
+       # Client -> Client
+       resp.dial(callerId=from_caller).client(to[7:])
+    else:
+       # Client -> PSTN
+       resp.dial(to, callerId=CALLER_PHONE)
+    return str(resp)
 
 @app.route('/placeCall', methods=['GET', 'POST'])
 def placeCall():
