@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request
-from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import Client
+from twilio.access_token import AccessToken, VoiceGrant
+from twilio.rest import TwilioRestClient
 import twilio.twiml
 
 ACCOUNT_SID = 'AC***'
@@ -51,7 +51,7 @@ def placeCall():
   api_key = os.environ.get("API_KEY", API_KEY)
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
-  client = Client(api_key, api_key_secret, account_sid)
+  client = TwilioRestClient(api_key, api_key_secret, account_sid)
   call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_='client:' + CALLER_ID)
   return str(call.sid)
 
