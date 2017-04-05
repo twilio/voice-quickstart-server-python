@@ -35,8 +35,28 @@ def token():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
+  """ This method routes calls from/to client                  """
+  """ Rules: 1. From can be either client:name or PSTN number  """
+  """        2. To value specifies target. When call is coming """
+  """           from PSTN, To value is ignored and call is     """
+  """           routed to client named CLIENT                  """
   resp = twilio.twiml.Response()
-  resp.say("Congratulations! You have made your first oubound call! Good bye.")
+  from_value = request.values.get('From')
+  to = request.values.get('To')
+  if not (from_value and to):
+    resp.say("Invalid request")
+    return str(resp)
+  from_client = from_value.startswith('client')
+  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  if not from_client:
+    # PSTN -> client
+    resp.dial(callerId=from_value).client(IDENTITY)
+  elif to.startswith("client:"):
+    # client -> client
+    resp.dial(callerId=from_value).client(to[7:])
+  else:
+    # client -> PSTN
+    resp.dial(to, callerId=caller_id)
   return str(resp)
 
 @app.route('/incoming', methods=['GET', 'POST'])
