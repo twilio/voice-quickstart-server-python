@@ -35,7 +35,7 @@ Once that's done you can start the server by executing
 
 And then, in a separate terminal window, make your server available to the public internet with the following:
 
-    ngrok http 5000
+    ./ngrok http 5000
 
 You should see a dynamically generated public Ngrok URL in the command window. Ngrok will now tunnel all HTTP traffic directed at this URL to your local machine at port 5000.
 
