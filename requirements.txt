@@ -7,3 +7,5 @@ itsdangerous==0.24
 six==1.*
 twilio==6.0rc11
 wsgiref==0.1.2
+setuptools==1.0
+pip ==1.4
