@@ -10,6 +10,7 @@ API_KEY_SECRET = '***'
 PUSH_CREDENTIAL_SID = 'CR***'
 APP_SID = 'AP***'
 
+# Replace the value of `CALLER_NUMBER` with a valid Twilio number under the account.
 CALLER_NUMBER = '14151234567'
 IDENTITY = 'voice_test'
 CALLER_ID = 'quick_start'
