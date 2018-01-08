@@ -44,6 +44,7 @@ def outgoing():
 @app.route('/placeCall', methods=['GET', 'POST'])
 def placeCall():
     response = twilio.twiml.Response()
+    # For simplicity, the following code assumes that identity name starts only with letters and not with numbers.
     to = request.form.get('server_param_to', IDENTITY)
     if to[0] in "+1234567890":
         response.dial(callerId=CALLER_NUMBER).number(to)
