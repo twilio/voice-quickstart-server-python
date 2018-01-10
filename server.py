@@ -10,10 +10,17 @@ API_KEY_SECRET = '***'
 PUSH_CREDENTIAL_SID = 'CR***'
 APP_SID = 'AP***'
 
-# Replace the value of `CALLER_NUMBER` with a valid Twilio number under the account.
-CALLER_NUMBER = '14151234567'
+"""
+Use a valid Twilio number by adding to your account via https://www.twilio.com/console/phone-numbers/verified
+"""
+CALLER_NUMBER = '0123456789'
+
+"""
+The caller id used when a client is dialed.
+"""
+CALLER_ID = 'client:quick_start'
 IDENTITY = 'voice_test'
-CALLER_ID = 'quick_start'
+
 
 app = Flask(__name__)
 
@@ -38,19 +45,20 @@ def token():
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
   resp = twilio.twiml.Response()
-  resp.say("Congratulations! You have made your first oubound call! Good bye.")
+  resp.say("Congratulations! You have just made your first oubound call! Good bye.")
   return str(resp)
 
 @app.route('/placeCall', methods=['GET', 'POST'])
 def placeCall():
-    response = twilio.twiml.Response()
-    # For simplicity, the following code assumes that identity name starts only with letters and not with numbers.
-    to = request.form.get('server_param_to', IDENTITY)
-    if to[0] in "+1234567890":
-        response.dial(callerId=CALLER_NUMBER).number(to)
-    else:
-        response.dial(callerId='client:'+CALLER_ID).client(to)
-    return str(response)
+  response = twilio.twiml.Response()
+  to = request.form.get('to')
+  if not to or len(to) == 0:
+    response.say("Congratulations! You have just made your first call! Good bye.")
+  elif to[0] in "+1234567890":
+    response.dial(callerId=CALLER_NUMBER).number(to)
+  else:
+    response.dial(callerId=CALLER_ID).client(to)
+  return str(response)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
