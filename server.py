@@ -48,8 +48,24 @@ def outgoing():
   resp.say("Congratulations! You have just made your first oubound call! Good bye.")
   return str(resp)
 
+@app.route('/incoming', methods=['GET', 'POST'])
+def incoming():
+  resp = twilio.twiml.Response()
+  resp.say("Congratulations! You have received your first inbound call! Good bye.")
+  return str(resp)
+
 @app.route('/placeCall', methods=['GET', 'POST'])
 def placeCall():
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  api_key = os.environ.get("API_KEY", API_KEY)
+  api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+
+  client = Client(api_key, api_key_secret, account_sid)
+  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_='client:' + CALLER_ID)
+  return str(call.sid)
+
+@app.route('/makeCall', methods=['GET', 'POST'])
+def makeCall():
   response = twilio.twiml.Response()
   to = request.form.get('to')
   if not to or len(to) == 0:
