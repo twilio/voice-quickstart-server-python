@@ -19,7 +19,7 @@ CALLER_NUMBER = '0123456789'
 The caller id used when a client is dialed.
 """
 CALLER_ID = 'client:quick_start'
-IDENTITY = 'voice_test'
+IDENTITY = 'alice'
 
 
 app = Flask(__name__)
