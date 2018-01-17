@@ -1,8 +1,9 @@
 import os
 from flask import Flask, request
-from twilio.jwt.access_token import AccessToken, VoiceGrant
+from twilio.jwt.access_token import AccessToken
+from twilio.jwt.access_token.grants import VoiceGrant
 from twilio.rest import Client
-import twilio.twiml
+from twilio.twiml.voice_response import VoiceResponse
 
 ACCOUNT_SID = 'AC***'
 API_KEY = 'SK***'
@@ -37,20 +38,20 @@ def token():
     outgoing_application_sid=app_sid
   )
 
-  token = AccessToken(account_sid, api_key, api_key_secret, IDENTITY)
+  token = AccessToken(account_sid, api_key, api_key_secret, identity=IDENTITY)
   token.add_grant(grant)
 
   return str(token)
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  resp = twilio.twiml.Response()
+  resp = VoiceResponse()
   resp.say("Congratulations! You have made your first oubound call! Good bye.")
   return str(resp)
 
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
-  resp = twilio.twiml.Response()
+  resp = VoiceResponse()
   resp.say("Congratulations! You have received your first inbound call! Good bye.")
   return str(resp)
 
@@ -78,7 +79,7 @@ def makeCall():
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
-  resp = twilio.twiml.Response()
+  resp = VoiceResponse()
   resp.say("Welcome to Twilio")
   return str(resp)
 
