@@ -25,6 +25,9 @@ IDENTITY = 'alice'
 
 app = Flask(__name__)
 
+"""
+Creates an access token with VoiceGrant using your Twilio credentials.
+"""
 @app.route('/accessToken')
 def token():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
@@ -43,18 +46,27 @@ def token():
 
   return str(token)
 
+"""
+Creates an endpoint that plays back a greeting when the outbound call is connected.
+"""
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
   resp = VoiceResponse()
   resp.say("Congratulations! You have made your first oubound call! Good bye.")
   return str(resp)
 
+"""
+Creates an endpoint that plays back a greeting.
+"""
 @app.route('/incoming', methods=['GET', 'POST'])
 def incoming():
   resp = VoiceResponse()
   resp.say("Congratulations! You have received your first inbound call! Good bye.")
   return str(resp)
 
+"""
+Makes a call to the specified client using the Twilio REST API.
+"""
 @app.route('/placeCall', methods=['GET', 'POST'])
 def placeCall():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
@@ -65,9 +77,16 @@ def placeCall():
   call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_='client:' + CALLER_ID)
   return str(call.sid)
 
+"""
+Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
+
+In order to make an outgoing call using Twilio Voice SDK, you need to provide a
+TwiML App SID in the Access Token. You can run your server, make it publicly
+accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
+"""
 @app.route('/makeCall', methods=['GET', 'POST'])
 def makeCall():
-  response = twilio.twiml.Response()
+  response = VoiceResponse()
   to = request.form.get('to')
   if not to or len(to) == 0:
     response.say("Congratulations! You have just made your first call! Good bye.")
