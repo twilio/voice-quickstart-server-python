@@ -47,15 +47,6 @@ def token():
   return str(token)
 
 """
-Creates an endpoint that plays back a greeting when the outbound call is connected.
-"""
-@app.route('/outgoing', methods=['GET', 'POST'])
-def outgoing():
-  resp = VoiceResponse()
-  resp.say("Congratulations! You have made your first oubound call! Good bye.")
-  return str(resp)
-
-"""
 Creates an endpoint that plays back a greeting.
 """
 @app.route('/incoming', methods=['GET', 'POST'])
