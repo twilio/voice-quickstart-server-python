@@ -44,7 +44,7 @@ def token():
   token = AccessToken(account_sid, api_key, api_key_secret, identity=IDENTITY)
   token.add_grant(grant)
 
-  return str(token)
+  return token.to_jwt()
 
 """
 Creates an endpoint that plays back a greeting.
