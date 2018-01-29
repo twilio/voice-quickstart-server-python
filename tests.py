@@ -124,7 +124,6 @@ class TestRoutes(unittest.TestCase):
         payload = {'to': identity}
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
-        print r.text
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
         self.assertTrue("<Client>" + identity + "</Client>" in r.text)
 

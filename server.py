@@ -67,8 +67,16 @@ def placeCall():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_=CALLER_ID)
-  return str(call.sid)
+  to = request.values["to"] if request.values else None
+  call = None
+
+  if not to or len(to) == 0:
+    call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_=CALLER_ID)
+  elif to.replace('+','').isdigit():
+    call = client.calls.create(url=request.url_root + 'incoming', to=to, from_=CALLER_NUMBER)
+  else:
+    call = client.calls.create(url=request.url_root + 'incoming', to='client:' + to, from_=CALLER_ID)
+  return str(call)
 
 """
 Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
