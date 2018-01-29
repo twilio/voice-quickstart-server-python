@@ -107,17 +107,19 @@ class TestRoutes(unittest.TestCase):
         identity = self.ALTERNATE_IDENTITY 
         payload = {'to': identity}
         r = requests.get(self.voice_server_url + "/makeCall", params=payload)
+        print r.text
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
-        self.assertTrue("<Client>" + identity + "</Client>" in r.text)
+        self.assertTrue(self.validate_identity_in_xml(identity, self.DEFAULT_CALLER_ID, r.text))
 
     def test_post_make_call_with_identity(self):
         identity = self.ALTERNATE_IDENTITY 
         payload = {'to': identity}
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
+        print r.text
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
-        self.assertTrue("<Client>" + identity + "</Client>" in r.text)
+        self.assertTrue(self.validate_identity_in_xml(identity, self.DEFAULT_CALLER_ID, r.text))
 
     def test_post_make_call_with_identity_starting_with_digit(self):
         identity = "0bob"
@@ -125,7 +127,12 @@ class TestRoutes(unittest.TestCase):
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
-        self.assertTrue("<Client>" + identity + "</Client>" in r.text)
+        self.assertTrue(self.validate_identity_in_xml(identity, self.DEFAULT_CALLER_ID, r.text))
+
+    def validate_identity_in_xml(self, identity, callerId, xml):
+        simple_client_xml = "<Client>" + identity + "</Client>"
+        dialer_client_xml = "<Client callerId=\"" + callerId + "\">" + identity + "</Client>"
+        return simple_client_xml in xml or dialer_client_xml in xml
 
     def test_get_make_call_with_number(self):
         number = self.PHONE_NUMBER
