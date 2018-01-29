@@ -119,6 +119,15 @@ class TestRoutes(unittest.TestCase):
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
         self.assertTrue("<Client>" + identity + "</Client>" in r.text)
 
+    def test_post_make_call_with_identity_starting_with_digit(self):
+        identity = "0bob"
+        payload = {'to': identity}
+        r = requests.post(self.voice_server_url + "/makeCall", data=payload)
+        self.assertEquals(requests.codes.ok, r.status_code)
+        print r.text
+        self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
+        self.assertTrue("<Client>" + identity + "</Client>" in r.text)
+
     def test_get_make_call_with_number(self):
         number = self.PHONE_NUMBER
         payload = {'to': number}

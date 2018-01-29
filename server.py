@@ -83,7 +83,7 @@ def makeCall():
   to = request.values["to"] if request.values else None 
   if not to or len(to) == 0:
     response.say("Congratulations! You have just made your first call! Good bye.")
-  elif to[0] in "+1234567890":
+  elif to.replace('+','').isdigit():
     response.dial(callerId=CALLER_NUMBER).number(to)
   else:
     response.dial(callerId=CALLER_ID).client(to)
