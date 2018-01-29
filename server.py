@@ -19,7 +19,7 @@ CALLER_NUMBER = '1234567890'
 """
 The caller id used when a client is dialed.
 """
-CALLER_ID = 'client:quick_start'
+CALLER_ID = 'voice:quickstart'
 IDENTITY = 'alice'
 
 
@@ -28,7 +28,7 @@ app = Flask(__name__)
 """
 Creates an access token with VoiceGrant using your Twilio credentials.
 """
-@app.route('/accessToken')
+@app.route('/accessToken', methods=['GET', 'POST'])
 def token():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   api_key = os.environ.get("API_KEY", API_KEY)
@@ -41,7 +41,11 @@ def token():
     outgoing_application_sid=app_sid
   )
 
-  token = AccessToken(account_sid, api_key, api_key_secret, identity=IDENTITY)
+  identity = IDENTITY
+  if request.values and request.values["identity"]:
+    identity = request.values["identity"]
+
+  token = AccessToken(account_sid, api_key, api_key_secret, identity=identity)
   token.add_grant(grant)
 
   return token.to_jwt()
@@ -78,7 +82,7 @@ accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML A
 @app.route('/makeCall', methods=['GET', 'POST'])
 def makeCall():
   response = VoiceResponse()
-  to = request.form.get('to')
+  to = request.values["to"] if request.values else None 
   if not to or len(to) == 0:
     response.say("Congratulations! You have just made your first call! Good bye.")
   elif to[0] in "+1234567890":
