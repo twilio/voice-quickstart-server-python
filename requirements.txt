@@ -7,6 +7,6 @@ itsdangerous==0.24
 six==1.*
 twilio==6.10.0
 wsgiref==0.1.2
-nose==1.*
+nose
 requests
 pyjwt
