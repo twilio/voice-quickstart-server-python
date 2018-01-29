@@ -19,7 +19,7 @@ CALLER_NUMBER = '1234567890'
 """
 The caller id used when a client is dialed.
 """
-CALLER_ID = 'voice:quickstart'
+CALLER_ID = 'client:quickstart'
 IDENTITY = 'alice'
 
 
