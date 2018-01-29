@@ -67,10 +67,10 @@ def placeCall():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  to = request.values["to"] if request.values else None
+  to = request.values.get("to")
   call = None
 
-  if not to or len(to) == 0:
+  if to is None or len(to) == 0:
     call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_=CALLER_ID)
   elif to.replace('+','').isdigit():
     call = client.calls.create(url=request.url_root + 'incoming', to=to, from_=CALLER_NUMBER)
@@ -87,15 +87,16 @@ accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML A
 """
 @app.route('/makeCall', methods=['GET', 'POST'])
 def makeCall():
-  response = VoiceResponse()
-  to = request.values["to"] if request.values else None 
-  if not to or len(to) == 0:
-    response.say("Congratulations! You have just made your first call! Good bye.")
+  resp = VoiceResponse()
+  to = request.values.get("to")
+
+  if to is None or len(to) == 0:
+    resp.say("Congratulations! You have just made your first call! Good bye.")
   elif to.replace('+','').isdigit():
-    response.dial(callerId=CALLER_NUMBER).number(to)
+    resp.dial(callerId=CALLER_NUMBER).number(to)
   else:
-    response.dial(callerId=CALLER_ID).client(to)
-  return str(response)
+    resp.dial(callerId=CALLER_ID).client(to)
+  return str(resp)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
