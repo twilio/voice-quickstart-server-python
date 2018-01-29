@@ -13,7 +13,7 @@ Running tests with nose:
 
 """
 class TestRoutes(unittest.TestCase):
-    DEFAULT_CALLER_ID = "voice:quickstart"
+    DEFAULT_CALLER_ID = "client:quick_start"
     DEFAULT_NUMBER_CALLER_ID = "1234567890"
     DEFAULT_IDENTITY = "alice"
     DEFAULT_MESSAGE = "Welcome to Twilio"
