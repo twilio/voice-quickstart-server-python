@@ -108,7 +108,6 @@ class TestRoutes(unittest.TestCase):
         payload = {'to': identity}
         r = requests.get(self.voice_server_url + "/makeCall", params=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
-        print r.text
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
         self.assertTrue("<Client>" + identity + "</Client>" in r.text)
 
@@ -117,7 +116,6 @@ class TestRoutes(unittest.TestCase):
         payload = {'to': identity}
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
-        print r.text
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
         self.assertTrue("<Client>" + identity + "</Client>" in r.text)
 
@@ -126,7 +124,6 @@ class TestRoutes(unittest.TestCase):
         payload = {'to': number}
         r = requests.get(self.voice_server_url + "/makeCall", params=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
-        print r.text
         self.assertTrue(self.DEFAULT_NUMBER_CALLER_ID in r.text)
         self.assertTrue("<Number>" + number + "</Number>" in r.text)
 
@@ -135,7 +132,6 @@ class TestRoutes(unittest.TestCase):
         payload = {'to': number}
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
-        print r.text
         self.assertTrue(self.DEFAULT_NUMBER_CALLER_ID in r.text)
         self.assertTrue("<Number>" + number + "</Number>" in r.text)
 
