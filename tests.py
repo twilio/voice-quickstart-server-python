@@ -138,7 +138,7 @@ class TestRoutes(unittest.TestCase):
         r = requests.get(self.voice_server_url + "/makeCall", params=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue(self.DEFAULT_NUMBER_CALLER_ID in r.text)
-        self.assertTrue(self.validate_number_in_xml(number, self.DEFAULT_CALLER_ID, r.text))
+        self.assertTrue(self.validate_number_in_xml(number, self.DEFAULT_NUMBER_CALLER_ID, r.text))
 
     def test_post_make_call_with_number(self):
         number = self.PHONE_NUMBER
@@ -146,9 +146,10 @@ class TestRoutes(unittest.TestCase):
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue(self.DEFAULT_NUMBER_CALLER_ID in r.text)
-        self.assertTrue(self.validate_number_in_xml(number, self.DEFAULT_CALLER_ID, r.text))
+        self.assertTrue(self.validate_number_in_xml(number, self.DEFAULT_NUMBER_CALLER_ID, r.text))
 
     def validate_number_in_xml(self, number, callerId, xml):
         simple_number_xml = "<Number>" + number + "</Number>"
         dialer_number_xml = "<Number callerId=\"" + callerId + "\">" + number + "</Number>"
+        print dialer_number_xml
         return simple_number_xml in xml or dialer_number_xml in xml
