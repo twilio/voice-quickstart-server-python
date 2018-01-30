@@ -151,5 +151,4 @@ class TestRoutes(unittest.TestCase):
     def validate_number_in_xml(self, number, callerId, xml):
         simple_number_xml = "<Number>" + number + "</Number>"
         dialer_number_xml = "<Number callerId=\"" + callerId + "\">" + number + "</Number>"
-        print dialer_number_xml
         return simple_number_xml in xml or dialer_number_xml in xml
