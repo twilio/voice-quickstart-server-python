@@ -28,7 +28,7 @@ app = Flask(__name__)
 """
 Creates an access token with VoiceGrant using your Twilio credentials.
 """
-@app.route('/accessToken')
+@app.route('/accessToken', methods=['GET', 'POST'])
 def token():
   account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   api_key = os.environ.get("API_KEY", API_KEY)
@@ -41,7 +41,9 @@ def token():
     outgoing_application_sid=app_sid
   )
 
-  token = AccessToken(account_sid, api_key, api_key_secret, identity=IDENTITY)
+  identity = request.values["identity"] \
+          if request.values and request.values["identity"] else IDENTITY
+  token = AccessToken(account_sid, api_key, api_key_secret, identity=identity)
   token.add_grant(grant)
 
   return token.to_jwt()
@@ -65,8 +67,16 @@ def placeCall():
   api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
 
   client = Client(api_key, api_key_secret, account_sid)
-  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_=CALLER_ID)
-  return str(call.sid)
+  to = request.values.get("to")
+  call = None
+
+  if to is None or len(to) == 0:
+    call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_=CALLER_ID)
+  elif to[0] in "+1234567890" and (len(to) == 1 or to[1:].isdigit()):
+    call = client.calls.create(url=request.url_root + 'incoming', to=to, from_=CALLER_NUMBER)
+  else:
+    call = client.calls.create(url=request.url_root + 'incoming', to='client:' + to, from_=CALLER_ID)
+  return str(call)
 
 """
 Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
@@ -77,15 +87,16 @@ accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML A
 """
 @app.route('/makeCall', methods=['GET', 'POST'])
 def makeCall():
-  response = VoiceResponse()
-  to = request.form.get('to')
-  if not to or len(to) == 0:
-    response.say("Congratulations! You have just made your first call! Good bye.")
-  elif to[0] in "+1234567890":
-    response.dial(callerId=CALLER_NUMBER).number(to)
+  resp = VoiceResponse()
+  to = request.values.get("to")
+
+  if to is None or len(to) == 0:
+    resp.say("Congratulations! You have just made your first call! Good bye.")
+  elif to[0] in "+1234567890" and (len(to) == 1 or to[1:].isdigit()):
+    resp.dial(callerId=CALLER_NUMBER).number(to)
   else:
-    response.dial(callerId=CALLER_ID).client(to)
-  return str(response)
+    resp.dial(callerId=CALLER_ID).client(to)
+  return str(resp)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
