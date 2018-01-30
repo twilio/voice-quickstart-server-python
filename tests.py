@@ -68,7 +68,6 @@ class TestRoutes(unittest.TestCase):
         self.assertTrue(access_token["sub"])
         self.assertTrue(access_token["iss"])
         self.assertTrue(access_token["exp"])
-        self.assertTrue(access_token["nbf"])
         self.assertTrue(access_token["grants"]["voice"])
         self.assertTrue(access_token["grants"]["identity"])
         self.assertEquals(identity, access_token["grants"]["identity"])
