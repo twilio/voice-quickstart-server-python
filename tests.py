@@ -147,6 +147,15 @@ class TestRoutes(unittest.TestCase):
         self.assertTrue(self.DEFAULT_NUMBER_CALLER_ID in r.text)
         self.assertTrue(self.validate_number_in_xml(number, self.DEFAULT_NUMBER_CALLER_ID, r.text))
 
+    def test_get_make_call_with_number_that_includes_plus_sign(self):
+        number = "+12345"
+        payload = {'to': number}
+        r = requests.get(self.voice_server_url + "/makeCall", params=payload)
+        self.assertEquals(requests.codes.ok, r.status_code)
+        self.assertTrue(self.DEFAULT_NUMBER_CALLER_ID in r.text)
+        self.assertTrue(self.validate_number_in_xml(number, self.DEFAULT_NUMBER_CALLER_ID, r.text))
+
+
     def validate_number_in_xml(self, number, callerId, xml):
         simple_number_xml = "<Number>" + number + "</Number>"
         dialer_number_xml = "<Number callerId=\"" + callerId + "\">" + number + "</Number>"
