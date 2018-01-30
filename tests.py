@@ -92,6 +92,20 @@ class TestRoutes(unittest.TestCase):
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue("CA" in r.text)
 
+    def test_get_place_call_with_identity(self):
+        identity = "bob"
+        payload = {'to': identity}
+        r = requests.get(self.voice_server_url + "/placeCall", params=payload)
+        self.assertEquals(requests.codes.ok, r.status_code)
+        self.assertTrue("CA" in r.text)
+
+    def test_post_place_call_with_identity(self):
+        identity = "bob"
+        payload = {'to': identity}
+        r = requests.post(self.voice_server_url + "/placeCall", data=payload)
+        self.assertEquals(requests.codes.ok, r.status_code)
+        self.assertTrue("CA" in r.text)
+
     def test_get_make_call(self):
         r = requests.get(self.voice_server_url + "/makeCall")
         self.assertEquals(requests.codes.ok, r.status_code)
@@ -122,6 +136,15 @@ class TestRoutes(unittest.TestCase):
         identity = "0bob"
         payload = {'to': identity}
         r = requests.post(self.voice_server_url + "/makeCall", data=payload)
+        self.assertEquals(requests.codes.ok, r.status_code)
+        self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
+        self.assertTrue(self.validate_identity_in_xml(identity, self.DEFAULT_CALLER_ID, r.text))
+
+    def test_get_make_call_with_string_that_includes_plus_sign(self):
+        identity = "12+345"
+        payload = {'to': identity}
+        r = requests.get(self.voice_server_url + "/makeCall", params=payload)
+        print r.text
         self.assertEquals(requests.codes.ok, r.status_code)
         self.assertTrue(self.DEFAULT_CALLER_ID in r.text)
         self.assertTrue(self.validate_identity_in_xml(identity, self.DEFAULT_CALLER_ID, r.text))

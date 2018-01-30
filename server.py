@@ -72,7 +72,7 @@ def placeCall():
 
   if to is None or len(to) == 0:
     call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_=CALLER_ID)
-  elif to.replace('+','').isdigit():
+  elif to[0] in "+1234567890" and (len(to) == 1 or to[1:].isdigit()):
     call = client.calls.create(url=request.url_root + 'incoming', to=to, from_=CALLER_NUMBER)
   else:
     call = client.calls.create(url=request.url_root + 'incoming', to='client:' + to, from_=CALLER_ID)
@@ -92,7 +92,7 @@ def makeCall():
 
   if to is None or len(to) == 0:
     resp.say("Congratulations! You have just made your first call! Good bye.")
-  elif to.replace('+','').isdigit():
+  elif to[0] in "+1234567890" and (len(to) == 1 or to[1:].isdigit()):
     resp.dial(callerId=CALLER_NUMBER).number(to)
   else:
     resp.dial(callerId=CALLER_ID).client(to)
